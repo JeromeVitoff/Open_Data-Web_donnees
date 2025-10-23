@@ -1,0 +1,8 @@
+streamlit
+pandas
+matplotlib
+requests
+geopy
+geopandas
+plotly
+shapely
