@@ -45,9 +45,6 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 
-# Jupyter Notebook
-.ipynb_checkpoints
-*.ipynb
 
 # --- Environnements ---
 .env
