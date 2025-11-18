@@ -449,7 +449,7 @@ Ce projet est développé dans un cadre académique, mais les suggestions sont b
 
 **Usage Éducatif et Recherche**
 
-Ce projet utilise des données publiques de la NOAA et est fourni à des fins éducatives dans le cadre du Master 2 Open Data et Web.
+Ce projet utilise des données publiques de la NOAA et est fourni à des fins éducatives dans le cadre du cours de Open Data et Web.
 
 **Données** :
 - NOAA : Domaine public (données gouvernementales US)
@@ -480,14 +480,10 @@ Ce projet utilise des données publiques de la NOAA et est fourni à des fins é
 
 ## 👨‍💻 Auteur
 
-**Jérôme**  
-Étudiant Master 2 - Open Data et Web  
-Paris, France
+**Adjimon Jérôme VITFFODJI et Alvin INGABIRE**  
+Étudiant Master 2 - MIASHS cours de Open Data et Web  
+Montpellier, France
 
-📧 [Votre email]  
-🌐 [Votre portfolio/site web]  
-💼 [LinkedIn]  
-📂 [GitHub](https://github.com/votre-username)
 
 ---
 
