@@ -62,7 +62,7 @@ venv.bak/
 # --- Streamlit ---
 # --- .streamlit/secrets.toml ---
 .streamlit/logs/
-.streamlit/config.toml
+# --- .streamlit/config.toml ---
 
 # --- OS files ---
 .DS_Store
