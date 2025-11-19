@@ -60,7 +60,7 @@ venv.bak/
 .idea/
 
 # --- Streamlit ---
-.streamlit/secrets.toml
+# --- .streamlit/secrets.toml ---
 .streamlit/logs/
 .streamlit/config.toml
 
