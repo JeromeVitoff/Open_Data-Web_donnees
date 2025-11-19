@@ -954,7 +954,7 @@ with tab6:
 
 # -------- Créé par --------
 
-    st.subheader("👩🏻‍💻 Créé par :")
+    st.subheader("👨🏾‍💻👨🏾‍💻 Créé par :")
     st.markdown(" ")
     st.subheader("Adjimon Jérôme VITOFFODJI et Alvin INGABIRE")
     st.markdown("""
