@@ -408,6 +408,11 @@ with tab1:
 
     st.caption("📡 Source de données : API Open-Meteo et NOAA SWPC (temps réel).")
    
+# ============================================
+# CARTE AVEC RECHERCHE DE VILLES DYNAMIQUE
+# ============================================
+# Villes principales + recherche personnalisée
+
 with tab2:
     st.subheader("🗺️ Carte Mondiale des Probabilités d'Aurores")
     st.markdown(" ")
@@ -415,15 +420,71 @@ with tab2:
     # Récupérer l'indice Kp actuel
     kp_display = kp_now if kp_now is not None else 0
     
-    # Message d'information
-    st.info(f"""
-    💡 **Indice Kp actuel : {kp_display:.1f}**
+    # En-tête stylé
+    col_info1, col_info2 = st.columns([3, 1])
     
-    Cette carte montre les latitudes où les aurores sont visibles selon l'indice Kp.
-    Plus le Kp est élevé, plus les aurores sont visibles au sud.
-    """)
+    with col_info1:
+        st.markdown(f"""
+        <div style="background: linear-gradient(135deg, #2e8540 0%, #1e5a2e 100%); 
+                    padding: 20px; border-radius: 10px; color: white;">
+            <h3 style="margin: 0; color: white;">📊 Indice Kp Actuel : {kp_display:.1f}</h3>
+            <p style="margin: 5px 0 0 0; font-size: 14px;">
+                Carte de l'hémisphère nord - Recherchez votre ville !
+            </p>
+        </div>
+        """, unsafe_allow_html=True)
     
-    # Définition des zones selon Kp
+    with col_info2:
+        if kp_display >= 7:
+            emoji = "🔴"
+            level = "EXTRÊME"
+            color = "#c0392b"
+        elif kp_display >= 5:
+            emoji = "🟡"
+            level = "ÉLEVÉ"
+            color = "#e3b505"
+        elif kp_display >= 3:
+            emoji = "🟢"
+            level = "MODÉRÉ"
+            color = "#2e8540"
+        else:
+            emoji = "⚪"
+            level = "FAIBLE"
+            color = "#95a5a6"
+        
+        st.markdown(f"""
+        <div style="background-color: {color}; padding: 15px; border-radius: 10px; 
+                    text-align: center; color: white; font-weight: bold;">
+            <div style="font-size: 40px;">{emoji}</div>
+            <div style="font-size: 18px;">{level}</div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    st.markdown(" ")
+    
+    # ============================================
+    # RECHERCHE DE VILLES ADDITIONNELLES
+    # ============================================
+    
+    with st.expander("🔍 Ajouter des Villes Personnalisées sur la Carte", expanded=False):
+        st.markdown("**Ajoutez jusqu'à 5 villes supplémentaires à afficher sur la carte.**")
+        
+        col_search1, col_search2 = st.columns([3, 1])
+        
+        with col_search1:
+            villes_recherche_input = st.text_input(
+                "Entrez des villes (séparées par des virgules)",
+                placeholder="Ex: Helsinki, Copenhague, Moscou, Anchorage, Yellowknife",
+                help="Entrez jusqu'à 5 noms de villes, séparés par des virgules"
+            )
+        
+        with col_search2:
+            st.markdown("<br>", unsafe_allow_html=True)
+            rechercher_btn = st.button("🔍 Rechercher", type="primary")
+    
+    # ============================================
+    # DONNÉES
+    # ============================================
     kp_zones = {
         0: 66.5, 1: 64.5, 2: 62.4, 3: 60.4, 4: 58.3,
         5: 56.3, 6: 54.2, 7: 52.2, 8: 50.1, 9: 48.1
@@ -431,94 +492,402 @@ with tab2:
     
     lat_limit = kp_zones.get(int(kp_display), 66.5)
     
-    # Création des données
-    latitudes = list(range(90, 39, -5))
-    colors, labels, sizes = [], [], []
+    # Villes principales (toujours affichées)
+    villes_principales = [
+        {"name": "Longyearbyen", "lat": 78.22, "lon": 15.63, "emoji": "🇳🇴", "type": "principale"},
+        {"name": "Tromsø", "lat": 69.65, "lon": 18.96, "emoji": "🇳🇴", "type": "principale"},
+        {"name": "Reykjavik", "lat": 64.13, "lon": -21.89, "emoji": "🇮🇸", "type": "principale"},
+        {"name": "Stockholm", "lat": 59.33, "lon": 18.07, "emoji": "🇸🇪", "type": "principale"},
+        {"name": "Oslo", "lat": 59.91, "lon": 10.75, "emoji": "🇳🇴", "type": "principale"},
+        {"name": "Édimbourg", "lat": 55.95, "lon": -3.19, "emoji": "🏴󠁧󠁢󠁳󠁣󠁴󠁿", "type": "principale"},
+        {"name": "Londres", "lat": 51.51, "lon": -0.13, "emoji": "🇬🇧", "type": "principale"},
+        {"name": "Paris", "lat": 48.85, "lon": 2.35, "emoji": "🇫🇷", "type": "principale"},
+        {"name": "Berlin", "lat": 52.52, "lon": 13.40, "emoji": "🇩🇪", "type": "principale"},
+    ]
     
-    for lat in latitudes:
-        if lat >= lat_limit:
-            colors.append('rgba(46, 133, 64, 0.7)')
-            labels.append('Zone visible')
-            sizes.append(60)
-        else:
-            colors.append('rgba(192, 57, 43, 0.5)')
-            labels.append('Hors zone')
-            sizes.append(40)
+    # Villes recherchées (si l'utilisateur en a ajouté)
+    villes_recherchees = []
     
-    # Création de la carte
+    if villes_recherche_input and rechercher_btn:
+        # Parser les villes entrées
+        villes_input_list = [v.strip() for v in villes_recherche_input.split(',') if v.strip()]
+        
+        if len(villes_input_list) > 5:
+            st.warning("⚠️ Maximum 5 villes. Seules les 5 premières seront affichées.")
+            villes_input_list = villes_input_list[:5]
+        
+        # Liste pour stocker les villes déjà existantes
+        villes_deja_presentes = []
+        
+        # Geocoder chaque ville avec Open-Meteo
+        for ville_nom in villes_input_list:
+            try:
+                # Utiliser la même fonction que pour la localisation principale
+                ville_nom_en = translate_country_to_english(ville_nom)
+                
+                # Appel API Open-Meteo Geocoding
+                url_geo = f"https://geocoding-api.open-meteo.com/v1/search?name={ville_nom_en}&count=1&language=en&format=json"
+                resp = requests.get(url_geo, timeout=10)
+                data = resp.json()
+                
+                if data.get("results"):
+                    result = data["results"][0]
+                    ville_trouvee_nom = result.get("name", ville_nom)
+                    ville_trouvee_lat = result.get("latitude")
+                    ville_trouvee_lon = result.get("longitude")
+                    
+                    # Vérifier si la ville existe déjà dans les principales
+                    ville_existe = False
+                    for ville_principale in villes_principales:
+                        # Vérifier par nom (flexible) ou par coordonnées proches (± 0.5°)
+                        if (ville_principale["name"].lower() == ville_trouvee_nom.lower() or
+                            (abs(ville_principale["lat"] - ville_trouvee_lat) < 0.5 and 
+                             abs(ville_principale["lon"] - ville_trouvee_lon) < 0.5)):
+                            ville_existe = True
+                            villes_deja_presentes.append(ville_trouvee_nom)
+                            break
+                    
+                    # Vérifier si la ville est déjà dans les recherchées
+                    if not ville_existe:
+                        for ville_recherchee in villes_recherchees:
+                            if (ville_recherchee["name"].lower() == ville_trouvee_nom.lower() or
+                                (abs(ville_recherchee["lat"] - ville_trouvee_lat) < 0.5 and 
+                                 abs(ville_recherchee["lon"] - ville_trouvee_lon) < 0.5)):
+                                ville_existe = True
+                                villes_deja_presentes.append(ville_trouvee_nom)
+                                break
+                    
+                    # Ajouter seulement si elle n'existe pas déjà
+                    if not ville_existe:
+                        villes_recherchees.append({
+                            "name": ville_trouvee_nom,
+                            "lat": ville_trouvee_lat,
+                            "lon": ville_trouvee_lon,
+                            "emoji": "📍",
+                            "type": "recherchee"
+                        })
+                    
+                else:
+                    st.warning(f"⚠️ Ville '{ville_nom}' introuvable")
+            except Exception as e:
+                st.error(f"❌ Erreur pour '{ville_nom}': {e}")
+        
+        # Messages de feedback
+        if villes_deja_presentes:
+            st.warning(f"⚠️ **Ville(s) déjà présente(s) sur la carte :** {', '.join(villes_deja_presentes)}\n\nVeuillez saisir d'autres villes.")
+        
+        if villes_recherchees:
+            st.success(f"✅ {len(villes_recherchees)} ville(s) ajoutée(s) sur la carte !")
+        elif not villes_deja_presentes:
+            st.info("ℹ️ Aucune ville n'a été ajoutée. Vérifiez les noms saisis.")
+    
+    # Combiner toutes les villes
+    toutes_villes = villes_principales + villes_recherchees
+    
+    # ============================================
+    # CARTE FOCALISÉE SUR HÉMISPHÈRE NORD
+    # ============================================
+    
     fig = go.Figure()
     
-    # Bandes de latitude
+    # Créer des bandes de latitude colorées DENSES
+    latitudes = list(range(85, 39, -1))
+    
     for i, lat in enumerate(latitudes):
-        lons = list(range(-180, 181, 20))
-        lats = [lat] * len(lons)
+        if lat >= lat_limit:
+            distance = lat - lat_limit
+            intensity = 0.4 + (distance / 60) * 0.6
+            color = f'rgba(46, 133, 64, {intensity})'
+        else:
+            distance = lat_limit - lat
+            intensity = 0.7 - (distance / 25) * 0.3
+            color = f'rgba(192, 57, 43, {intensity})'
         
         fig.add_trace(go.Scattergeo(
-            lon=lons, lat=lats, mode='markers',
-            marker=dict(size=sizes[i], color=colors[i], line=dict(width=0)),
-            name=labels[i],
-            showlegend=(i == 0 or (i == len(latitudes)//2 and labels[i] != labels[0])),
-            hovertemplate=f'<b>Latitude {lat}°N</b><br>{labels[i]}<extra></extra>'
+            lon=[-180, -180, 180, 180, -180],
+            lat=[lat, lat+1, lat+1, lat, lat],
+            mode='lines',
+            fill='toself',
+            fillcolor=color,
+            line=dict(width=0),
+            showlegend=False,
+            hoverinfo='skip'
         ))
     
     # Ligne de limite
-    lons_line = list(range(-180, 181, 5))
-    lats_line = [lat_limit] * len(lons_line)
-    
     fig.add_trace(go.Scattergeo(
-        lon=lons_line, lat=lats_line, mode='lines',
-        line=dict(color='gold', width=4, dash='dash'),
-        name=f'Limite aurores (Kp {kp_display:.1f})',
-        hovertemplate=f'<b>Limite visibilité</b><br>Latitude: {lat_limit:.1f}°N<extra></extra>'
+        lon=list(range(-180, 181, 3)),
+        lat=[lat_limit] * 121,
+        mode='lines',
+        line=dict(color='gold', width=6),
+        name=f'🌟 Limite Kp {kp_display:.1f}',
+        hovertemplate=f'<b>Limite de visibilité</b><br>Latitude: {lat_limit:.1f}°N<extra></extra>'
     ))
     
-    # Marqueur localisation actuelle
+    # Afficher TOUTES les villes (principales + recherchées)
+    for ville in toutes_villes:
+        visible = ville["lat"] >= lat_limit
+        
+        # Style selon type de ville avec couleurs conditionnelles
+        if ville["type"] == "principale":
+            marker_color = "#2e8540" if visible else "#c0392b"  # Vert ou Rouge
+            marker_size = 16 if visible else 12
+            marker_symbol = 'circle'
+            text_size = 12
+        else:  # Ville recherchée
+            marker_color = "#e3b505" if visible else "#e67e22"  # Jaune ou Orange
+            marker_size = 14
+            marker_symbol = 'diamond'
+            text_size = 11
+        
+        fig.add_trace(go.Scattergeo(
+            lon=[ville["lon"]],
+            lat=[ville["lat"]],
+            mode='markers+text',
+            marker=dict(
+                size=marker_size,
+                color=marker_color,
+                symbol=marker_symbol,
+                line=dict(width=3, color='white')
+            ),
+            text=[f"{ville['emoji']}<br><b>{ville['name']}</b>"],
+            textposition='top center',
+            textfont=dict(size=text_size, color='black', family='Arial Black'),
+            name=ville["name"],
+            showlegend=False,
+            hovertemplate=f"<b>{ville['emoji']} {ville['name']}</b><br>" +
+                         f"Type: {'Principale' if ville['type'] == 'principale' else 'Personnalisée'}<br>" +
+                         f"Latitude: {ville['lat']:.2f}°N<br>" +
+                         f"<b>Aurores: {'✅ VISIBLES' if visible else '❌ NON VISIBLES'}</b><extra></extra>"
+        ))
+    
+    # Votre localisation actuelle (toujours affichée)
     fig.add_trace(go.Scattergeo(
-        lon=[lon], lat=[lat], mode='markers+text',
-        marker=dict(size=20, color='yellow', symbol='star', line=dict(width=2, color='black')),
-        text=[geo['name']], textposition='top center',
+        lon=[lon],
+        lat=[lat],
+        mode='markers+text',
+        marker=dict(
+            size=30,
+            color='yellow',
+            symbol='star',
+            line=dict(width=4, color='black')
+        ),
+        text=[f"📍<br><b>{geo['name']}</b>"],
+        textposition='top center',
+        textfont=dict(size=14, color='black', family='Arial Black'),
         name='Votre localisation',
-        hovertemplate=f"<b>{geo['name']}</b><br>Lat: {lat:.2f}°<br>Lon: {lon:.2f}°<extra></extra>"
+        hovertemplate=f"<b>📍 {geo['name']}</b><br>" +
+                     f"Latitude: {lat:.2f}°N<br>" +
+                     f"Longitude: {lon:.2f}°E<br>" +
+                     f"<b>{'✅ AURORES VISIBLES' if lat >= lat_limit else '❌ NON VISIBLES'}</b><extra></extra>"
     ))
     
     # Configuration
     fig.update_layout(
-        title=dict(text=f"Visibilité des Aurores Boréales (Kp = {kp_display:.1f})", x=0.5, xanchor='center', font=dict(size=20)),
-        geo=dict(
-            projection_type='orthographic',
-            projection_rotation=dict(lon=0, lat=70, roll=0),
-            center=dict(lon=0, lat=70),
-            showland=True, landcolor='rgb(243, 243, 243)',
-            coastlinecolor='rgb(204, 204, 204)',
-            showocean=True, oceancolor='rgb(230, 245, 255)',
-            showcountries=True, countrycolor='rgb(204, 204, 204)',
-            lataxis=dict(range=[40, 90]),
+        title=dict(
+            text=f"🌌 Visibilité des Aurores Boréales (Kp = {kp_display:.1f})",
+            x=0.5,
+            xanchor='center',
+            font=dict(size=24, family='Arial Black', color='#2e8540')
         ),
-        height=650, showlegend=True,
-        legend=dict(yanchor="top", y=0.99, xanchor="right", x=0.0, bgcolor='rgba(255, 255, 255, 0.8)')
+        geo=dict(
+            projection_type='mercator',
+            showland=True,
+            landcolor='rgb(245, 245, 245)',
+            coastlinecolor='rgb(80, 80, 80)',
+            coastlinewidth=1.5,
+            showocean=True,
+            oceancolor='rgb(210, 235, 255)',
+            showcountries=True,
+            countrycolor='rgb(120, 120, 120)',
+            countrywidth=1,
+            showlakes=True,
+            lakecolor='rgb(210, 235, 255)',
+            lataxis=dict(
+                range=[40, 85],
+                showgrid=True,
+                gridcolor='rgb(200, 200, 200)',
+                gridwidth=0.5
+            ),
+            lonaxis=dict(
+                range=[-180, 180],
+                showgrid=True,
+                gridcolor='rgb(200, 200, 200)',
+                gridwidth=0.5
+            ),
+            bgcolor='rgba(240, 248, 255, 1)',
+            projection_scale=1.5,
+        ),
+        height=800,
+        showlegend=True,
+        legend=dict(
+            orientation="h",
+            yanchor="bottom",
+            y=-0.05,
+            xanchor="center",
+            x=0.5,
+            bgcolor='rgba(255, 255, 255, 0.95)',
+            bordercolor='#2e8540',
+            borderwidth=2,
+            font=dict(size=13)
+        ),
+        margin=dict(l=10, r=10, t=80, b=20),
+        paper_bgcolor='rgba(240, 248, 255, 1)'
     )
     
     st.plotly_chart(fig, use_container_width=True)
+    
     st.markdown("---")
     
-    # Tableau d'interprétation
-    st.markdown("### 📊 Guide d'Interprétation des Latitudes")
-    st.markdown(" ")
+    # ============================================
+    # STATISTIQUES
+    # ============================================
+    
+    col_stat1, col_stat2, col_stat3, col_stat4 = st.columns(4)
+    
+    with col_stat1:
+        st.metric(
+            "📏 Latitude Limite",
+            f"{lat_limit:.1f}°N",
+            delta=f"Kp {kp_display:.1f}"
+        )
+    
+    with col_stat2:
+        distance_km = abs(lat - lat_limit) * 111
+        
+        # Déterminer la direction selon la position
+        if lat >= lat_limit:
+            # Vous êtes DANS la zone visible
+            direction = "dans la zone ✅"
+            delta_color = "normal"
+        else:
+            # Vous êtes EN DEHORS (trop au sud)
+            direction = "vers le nord ⬆️"
+            delta_color = "inverse"
+        
+        st.metric(
+            "🚗 Distance à Limite",
+            f"{distance_km:.0f} km",
+            delta=direction,
+            delta_color=delta_color
+        )
+    
+    with col_stat3:
+        visible_text = "OUI ✅" if lat >= lat_limit else "NON ❌"
+        st.metric(
+            "👁️ Aurores Ici",
+            visible_text,
+            delta=geo['name']
+        )
+    
+    with col_stat4:
+        villes_visibles = sum(1 for v in toutes_villes if v['lat'] >= lat_limit)
+        st.metric(
+            "🏙️ Villes Visibles",
+            f"{villes_visibles}/{len(toutes_villes)}",
+            delta=f"{int(villes_visibles/len(toutes_villes)*100) if toutes_villes else 0}%"
+        )
+    
+    st.markdown("---")
+    
+    # ============================================
+    # LÉGENDE
+    # ============================================
+    
+    st.markdown("### 🎨 Légende de la Carte")
+    
+    col1, col2, col3, col4, col5 = st.columns(5)
+    
+    with col1:
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, #2e8540, #1e5a2e); 
+                    padding: 15px; border-radius: 10px; text-align: center; color: white; height: 130px;
+                    display: flex; flex-direction: column; justify-content: center;">
+            <div style="font-size: 30px; margin-bottom: 5px;">🟢</div>
+            <b style="font-size: 14px;">Zone Verte</b><br/>
+            <small>Aurores visibles</small>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col2:
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, #e3b505, #b38f04); 
+                    padding: 15px; border-radius: 10px; text-align: center; color: white; height: 130px;
+                    display: flex; flex-direction: column; justify-content: center;">
+            <div style="font-size: 30px; margin-bottom: 5px;">━━━</div>
+            <b style="font-size: 14px;">Ligne Dorée</b><br/>
+            <small>Limite Kp """ + f"{kp_display:.1f}" + """</small>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col3:
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, #c0392b, #8b2a1f); 
+                    padding: 15px; border-radius: 10px; text-align: center; color: white; height: 130px;
+                    display: flex; flex-direction: column; justify-content: center;">
+            <div style="font-size: 30px; margin-bottom: 5px;">🔴</div>
+            <b style="font-size: 14px;">Zone Rouge</b><br/>
+            <small>Aurores invisibles</small>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col4:
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, #3498db, #2980b9); 
+                    padding: 15px; border-radius: 10px; text-align: center; color: white; height: 130px;
+                    display: flex; flex-direction: column; justify-content: center;">
+            <div style="font-size: 30px; margin-bottom: 5px;">⚫</div>
+            <b style="font-size: 14px;">Villes Principales</b><br/>
+            <small>Cercles noirs</small>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col5:
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, #e3b505, #e67e22); 
+                    padding: 15px; border-radius: 10px; text-align: center; color: white; height: 130px;
+                    display: flex; flex-direction: column; justify-content: center;">
+            <div style="font-size: 30px; margin-bottom: 5px;">◆</div>
+            <b style="font-size: 14px;">Villes Perso</b><br/>
+            <small>Losanges dorés</small>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    st.markdown("---")
+    
+    # ============================================
+    # TABLEAU
+    # ============================================
+    
+    st.markdown("### 📊 Guide d'Interprétation par Kp")
     
     interpretation_data = {
         "Kp": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-        "Latitude limite": ["66.5°N", "64.5°N", "62.4°N", "60.4°N", "58.3°N", "56.3°N", "54.2°N", "52.2°N", "50.1°N", "48.1°N"],
-        "Régions visibles": [
-            "🇬🇱 Groenland, Nord Islande", "🇮🇸 Islande, Nord Norvège",
-            "🇳🇴 Tromsø, Nord Finlande", "🇫🇮 Rovaniemi, Nord Suède",
-            "🇸🇪 Stockholm, Helsinki", "🏴󠁧󠁢󠁳󠁣󠁴󠁿 Écosse, Sud Norvège",
-            "🇬🇧 Nord Angleterre", "🇬🇧 Londres, Amsterdam",
-            "🇧🇪 Bruxelles, Paris Nord", "🇫🇷 Paris, Munich"
+        "Latitude": ["66.5°N", "64.5°N", "62.4°N", "60.4°N", "58.3°N", 
+                     "56.3°N", "54.2°N", "52.2°N", "50.1°N", "48.1°N"],
+        "Régions Visibles": [
+            "🇬🇱 Groenland, Svalbard",
+            "🇮🇸 Islande, Nord Norvège",
+            "🇳🇴 Tromsø, Laponie",
+            "🇫🇮 Rovaniemi, Kiruna",
+            "🇸🇪 Stockholm, Helsinki",
+            "🏴󠁧󠁢󠁳󠁣󠁴󠁿 Écosse, Sud Norvège",
+            "🇬🇧 Nord Angleterre, Danemark",
+            "🇬🇧 Londres, Amsterdam",
+            "🇧🇪 Bruxelles, Nord France",
+            "🇫🇷 Paris, Sud Allemagne"
         ],
         "Fréquence": [
-            "Toutes les nuits claires", "Très fréquent", "Fréquent",
-            "Régulier", "Occasionnel", "Rare", "Très rare",
-            "Exceptionnel", "Tempête majeure", "Tempête extrême"
+            "Quotidien",
+            "Très fréquent",
+            "Fréquent",
+            "Régulier",
+            "Occasionnel",
+            "Rare",
+            "Très rare",
+            "Exceptionnel",
+            "Tempête majeure",
+            "Tempête extrême"
         ]
     }
     
@@ -526,53 +895,31 @@ with tab2:
     
     def highlight_current_kp(row):
         if row.name == int(kp_display):
-            return ['background-color: #2e8540; color: white; font-weight: bold'] * len(row)
-        return [''] * len(row)
+            return ['background: linear-gradient(90deg, #2e8540, #1e5a2e); color: white; font-weight: bold;'] * len(row)
+        elif row.name < int(kp_display):
+            return ['background-color: #e8f5e9; color: #1b5e20;'] * len(row)
+        return ['background-color: #ffebee; color: #b71c1c;'] * len(row)
     
-    st.dataframe(df_interpretation.style.apply(highlight_current_kp, axis=1), use_container_width=True)
+    st.dataframe(
+        df_interpretation.style.apply(highlight_current_kp, axis=1),
+        use_container_width=True,
+        height=420
+    )
+    
     st.markdown(" ")
     
-    # Message selon Kp
+    # Message contextuel
     if kp_display >= 7:
-        st.success(f"🎆 **Conditions EXCEPTIONNELLES !** Kp {kp_display:.1f} → Aurores jusqu'à {lat_limit:.1f}°N")
+        st.success(f"🎆 **CONDITIONS EXCEPTIONNELLES !** Aurores jusqu'à {lat_limit:.1f}°N")
     elif kp_display >= 5:
-        st.warning(f"🟡 **Bonnes conditions !** Kp {kp_display:.1f} → Aurores jusqu'à {lat_limit:.1f}°N")
+        st.warning(f"🟡 **BONNES CONDITIONS !** Aurores jusqu'à {lat_limit:.1f}°N")
     elif kp_display >= 3:
-        st.info(f"🔵 **Conditions normales** Kp {kp_display:.1f} → Aurores jusqu'à {lat_limit:.1f}°N")
+        st.info(f"🔵 **CONDITIONS NORMALES** Aurores jusqu'à {lat_limit:.1f}°N")
     else:
-        st.info(f"⚪ **Activité faible** Kp {kp_display:.1f} → Limité aux régions polaires ({lat_limit:.1f}°N+)")
+        st.info(f"⚪ **ACTIVITÉ FAIBLE** Limité aux régions polaires ({lat_limit:.1f}°N+)")
     
     st.markdown("---")
-    
-    # Guide d'utilisation
-    st.markdown("### 💡 Comment Utiliser Cette Carte")
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.markdown("""
-        **🟢 Zone verte : Aurores visibles**
-        - Au-dessus de la limite Kp
-        - Bonnes chances d'observation
-        - Vérifiez la météo locale
-        
-        **🔴 Zone rouge : Aurores non visibles**
-        - En-dessous de la limite
-        - Attendez une activité plus forte
-        """)
-    
-    with col2:
-        st.markdown("""
-        **⭐ Étoile jaune : Votre position**
-        - Votre localisation actuelle
-        - Dans la zone verte ? GO ! 🎉
-        
-        **📏 Ligne dorée : Limite d'aurores**
-        - Latitude minimale
-        - Dépend du Kp
-        """)
-    
-    st.markdown("---")
-    st.caption("📡 Source : NOAA SWPC (indice Kp) + Modèle de latitude géomagnétique")
+    st.caption("📡 Source : NOAA SWPC + Géocodage Open-Meteo")
 
 
 # -------- Météo actuelle (OpenWeatherMap) --------
@@ -599,7 +946,7 @@ with tab3:
                 if owm.get("icon_url"):
                     c1.image(owm["icon_url"], width=90)
 
-                city = owm.get("city") or geo["name"]
+                city = geo["name"]
                 country = owm.get("country") or geo["country"]
                 desc = (owm.get("desc", "") or "").lstrip("-–— ").capitalize()
 
