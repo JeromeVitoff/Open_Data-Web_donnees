@@ -368,18 +368,8 @@ aurora-dashboard/
 ### 🚧 En Développement
 
 - [ ] Carte interactive mondiale des probabilités d'aurores (GeoJSON)
-- [ ] Historique personnel des observations
 - [ ] Système d'alertes par email (quand Kp > seuil)
-- [ ] Mode hors ligne avec cache local
 
-### 💡 Fonctionnalités Futures
-
-- [ ] Support multilingue (EN/FR/SE/NO/FI)
-- [ ] Prédictions par Machine Learning (Kp à 3h)
-- [ ] Intégration de plus de webcams (SkylineWebcams)
-- [ ] Application mobile (Streamlit Mobile)
-- [ ] Mode expert avec données solaires (flux F10.7, CME)
-- [ ] Partage social des observations
 
 ---
 
