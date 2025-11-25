@@ -5,7 +5,7 @@ import plotly.graph_objects as go
 import requests
 import pandas as pd
 import datetime as dt
-
+from PIL import Image
 
 
 ## IMPORTATION DES FONCTIONS
@@ -81,13 +81,18 @@ def translate_country_to_english(place: str) -> str:
 st.set_page_config(page_title="AurorAlerte", page_icon="🌌", layout="wide")
 
 # --- Image bannière (fichier local)
-BANNER = Path(__file__).parent / "assets" / "aurora_banner.jpg"
+BANNER = Path(__file__).parent / "assets" / "Gemini_Generated_Image_qaqnevqaqnevqaqn.png"
 
 if BANNER.exists():
-    st.image(str(BANNER), width=1500)
-    #st.caption("📸 Photo par Jon Anders Dalan sur Unsplash")  
-
-
+    # Charger l'image avec PIL
+    img = Image.open(BANNER)
+    
+    # Redimensionner à 1100x80 pixels (largeur x hauteur)
+    img_resized = img.resize((1100, 200), Image.Resampling.LANCZOS)
+    
+    # Afficher l'image redimensionnée
+    st.image(img_resized)
+    
 # -----------------------------
 # Barre latérale (paramètres)
 # -----------------------------
