@@ -16,6 +16,7 @@ from model.functions import (
     chance_score, score_label
 )
 from pathlib import Path
+from model.alerts import send_aurora_alert_email, should_send_alert, validate_email
 
 
 # ============================================
@@ -130,6 +131,48 @@ if refresh:
     st.cache_resource.clear()
     st.rerun()
 
+# AJOUTEZ :
+
+st.sidebar.markdown("---")
+st.sidebar.subheader("📧 Alertes Email")
+
+alerts_enabled = st.sidebar.checkbox(
+    "Activer les alertes email",
+    value=False,
+    help="Recevez un email quand les conditions sont favorables"
+)
+
+if alerts_enabled:
+    email_config_ok = all([
+        st.secrets.get("email", {}).get("smtp_server"),
+        st.secrets.get("email", {}).get("sender_email"),
+        st.secrets.get("email", {}).get("sender_password")
+    ])
+    
+    if not email_config_ok:
+        st.sidebar.error("❌ Configuration email manquante. Voir secrets.toml")
+    else:
+        recipient_email = st.sidebar.text_input(
+            "Votre email",
+            placeholder="votre.email@exemple.com"
+        )
+        
+        kp_threshold = st.sidebar.slider(
+            "Seuil Kp minimum",
+            3.0, 9.0, 5.0, 0.5
+        )
+        
+        cooldown_hours = st.sidebar.slider(
+            "Intervalle entre alertes (h)",
+            0.5, 6.0, 1.0, 0.5
+        )
+        
+        if 'last_alert_time' not in st.session_state:
+            st.session_state.last_alert_time = None
+        if 'alerts_sent_count' not in st.session_state:
+            st.session_state.alerts_sent_count = 0
+
+
 # -----------------------------
 # Récupération des données principales
 # -----------------------------
@@ -187,6 +230,39 @@ except Exception as e:
 # Score de probabilité
 score = chance_score(kp_now, cloud_now, dark, w1=w_kp, w2=w_sky, w3=w_dark)
 
+
+# APRÈS : score = chance_score(kp_now, cloud_now, dark, w1=w_kp, w2=w_sky, w3=w_dark)
+# AJOUTEZ :
+
+if alerts_enabled and email_config_ok and recipient_email and validate_email(recipient_email):
+    if kp_now and should_send_alert(kp_now, kp_threshold, st.session_state.last_alert_time, cooldown_hours):
+        smtp_config = {
+            'smtp_server': st.secrets['email']['smtp_server'],
+            'smtp_port': st.secrets['email']['smtp_port'],
+            'sender_email': st.secrets['email']['sender_email'],
+            'sender_password': st.secrets['email']['sender_password']
+        }
+        
+        with st.spinner("📧 Envoi de l'alerte..."):
+            success, message = send_aurora_alert_email(
+                recipient_email, kp_now, f"{geo['name']}, {geo['country']}",
+                score, cloud_now, dark, smtp_config
+            )
+        
+        if success:
+            st.session_state.last_alert_time = pd.Timestamp.now()
+            st.session_state.alerts_sent_count += 1
+            st.sidebar.success(f"✅ Alerte envoyée ! Kp={kp_now:.1f}")
+        else:
+            st.sidebar.error(f"❌ {message}")
+    else:
+        if st.session_state.last_alert_time and kp_now and kp_now >= kp_threshold:
+            time_since = (pd.Timestamp.now() - st.session_state.last_alert_time).total_seconds() / 3600
+            time_left = max(0, cooldown_hours - time_since)
+            st.sidebar.info(f"⏳ Prochaine alerte dans {time_left:.1f}h")
+            
+            
+
 # -----------------------------
 # En-tête
 # -----------------------------
@@ -196,8 +272,10 @@ st.caption(f"📍 Localisation : **{geo['name']}** ({geo['country']}) — lat {l
 # -----------------------------
 # Onglets
 # -----------------------------
-tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
-    "🌍 Vue d'ensemble", 
+# APRÈS (7 onglets)
+tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
+    "🌍 Vue d'ensemble",
+    "🗺️ Carte mondiale",  # ← NOUVEAU
     "🌤 Météo actuelle", 
     "📅 Prévisions météo", 
     "📷 Webcams", 
@@ -325,10 +403,175 @@ with tab1:
 
     st.caption("📡 Source de données : API Open-Meteo et NOAA SWPC (temps réel).")
    
+with tab2:
+    st.subheader("🗺️ Carte Mondiale des Probabilités d'Aurores")
+    st.markdown(" ")
+    
+    # Récupérer l'indice Kp actuel
+    kp_display = kp_now if kp_now is not None else 0
+    
+    # Message d'information
+    st.info(f"""
+    💡 **Indice Kp actuel : {kp_display:.1f}**
+    
+    Cette carte montre les latitudes où les aurores sont visibles selon l'indice Kp.
+    Plus le Kp est élevé, plus les aurores sont visibles au sud.
+    """)
+    
+    # Définition des zones selon Kp
+    kp_zones = {
+        0: 66.5, 1: 64.5, 2: 62.4, 3: 60.4, 4: 58.3,
+        5: 56.3, 6: 54.2, 7: 52.2, 8: 50.1, 9: 48.1
+    }
+    
+    lat_limit = kp_zones.get(int(kp_display), 66.5)
+    
+    # Création des données
+    latitudes = list(range(90, 39, -5))
+    colors, labels, sizes = [], [], []
+    
+    for lat in latitudes:
+        if lat >= lat_limit:
+            colors.append('rgba(46, 133, 64, 0.7)')
+            labels.append('Zone visible')
+            sizes.append(60)
+        else:
+            colors.append('rgba(192, 57, 43, 0.5)')
+            labels.append('Hors zone')
+            sizes.append(40)
+    
+    # Création de la carte
+    fig = go.Figure()
+    
+    # Bandes de latitude
+    for i, lat in enumerate(latitudes):
+        lons = list(range(-180, 181, 20))
+        lats = [lat] * len(lons)
+        
+        fig.add_trace(go.Scattergeo(
+            lon=lons, lat=lats, mode='markers',
+            marker=dict(size=sizes[i], color=colors[i], line=dict(width=0)),
+            name=labels[i],
+            showlegend=(i == 0 or (i == len(latitudes)//2 and labels[i] != labels[0])),
+            hovertemplate=f'<b>Latitude {lat}°N</b><br>{labels[i]}<extra></extra>'
+        ))
+    
+    # Ligne de limite
+    lons_line = list(range(-180, 181, 5))
+    lats_line = [lat_limit] * len(lons_line)
+    
+    fig.add_trace(go.Scattergeo(
+        lon=lons_line, lat=lats_line, mode='lines',
+        line=dict(color='gold', width=4, dash='dash'),
+        name=f'Limite aurores (Kp {kp_display:.1f})',
+        hovertemplate=f'<b>Limite visibilité</b><br>Latitude: {lat_limit:.1f}°N<extra></extra>'
+    ))
+    
+    # Marqueur localisation actuelle
+    fig.add_trace(go.Scattergeo(
+        lon=[lon], lat=[lat], mode='markers+text',
+        marker=dict(size=20, color='yellow', symbol='star', line=dict(width=2, color='black')),
+        text=[geo['name']], textposition='top center',
+        name='Votre localisation',
+        hovertemplate=f"<b>{geo['name']}</b><br>Lat: {lat:.2f}°<br>Lon: {lon:.2f}°<extra></extra>"
+    ))
+    
+    # Configuration
+    fig.update_layout(
+        title=dict(text=f"Visibilité des Aurores Boréales (Kp = {kp_display:.1f})", x=0.5, xanchor='center', font=dict(size=20)),
+        geo=dict(
+            projection_type='orthographic',
+            projection_rotation=dict(lon=0, lat=70, roll=0),
+            center=dict(lon=0, lat=70),
+            showland=True, landcolor='rgb(243, 243, 243)',
+            coastlinecolor='rgb(204, 204, 204)',
+            showocean=True, oceancolor='rgb(230, 245, 255)',
+            showcountries=True, countrycolor='rgb(204, 204, 204)',
+            lataxis=dict(range=[40, 90]),
+        ),
+        height=650, showlegend=True,
+        legend=dict(yanchor="top", y=0.99, xanchor="right", x=0.0, bgcolor='rgba(255, 255, 255, 0.8)')
+    )
+    
+    st.plotly_chart(fig, use_container_width=True)
+    st.markdown("---")
+    
+    # Tableau d'interprétation
+    st.markdown("### 📊 Guide d'Interprétation des Latitudes")
+    st.markdown(" ")
+    
+    interpretation_data = {
+        "Kp": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+        "Latitude limite": ["66.5°N", "64.5°N", "62.4°N", "60.4°N", "58.3°N", "56.3°N", "54.2°N", "52.2°N", "50.1°N", "48.1°N"],
+        "Régions visibles": [
+            "🇬🇱 Groenland, Nord Islande", "🇮🇸 Islande, Nord Norvège",
+            "🇳🇴 Tromsø, Nord Finlande", "🇫🇮 Rovaniemi, Nord Suède",
+            "🇸🇪 Stockholm, Helsinki", "🏴󠁧󠁢󠁳󠁣󠁴󠁿 Écosse, Sud Norvège",
+            "🇬🇧 Nord Angleterre", "🇬🇧 Londres, Amsterdam",
+            "🇧🇪 Bruxelles, Paris Nord", "🇫🇷 Paris, Munich"
+        ],
+        "Fréquence": [
+            "Toutes les nuits claires", "Très fréquent", "Fréquent",
+            "Régulier", "Occasionnel", "Rare", "Très rare",
+            "Exceptionnel", "Tempête majeure", "Tempête extrême"
+        ]
+    }
+    
+    df_interpretation = pd.DataFrame(interpretation_data)
+    
+    def highlight_current_kp(row):
+        if row.name == int(kp_display):
+            return ['background-color: #2e8540; color: white; font-weight: bold'] * len(row)
+        return [''] * len(row)
+    
+    st.dataframe(df_interpretation.style.apply(highlight_current_kp, axis=1), use_container_width=True)
+    st.markdown(" ")
+    
+    # Message selon Kp
+    if kp_display >= 7:
+        st.success(f"🎆 **Conditions EXCEPTIONNELLES !** Kp {kp_display:.1f} → Aurores jusqu'à {lat_limit:.1f}°N")
+    elif kp_display >= 5:
+        st.warning(f"🟡 **Bonnes conditions !** Kp {kp_display:.1f} → Aurores jusqu'à {lat_limit:.1f}°N")
+    elif kp_display >= 3:
+        st.info(f"🔵 **Conditions normales** Kp {kp_display:.1f} → Aurores jusqu'à {lat_limit:.1f}°N")
+    else:
+        st.info(f"⚪ **Activité faible** Kp {kp_display:.1f} → Limité aux régions polaires ({lat_limit:.1f}°N+)")
+    
+    st.markdown("---")
+    
+    # Guide d'utilisation
+    st.markdown("### 💡 Comment Utiliser Cette Carte")
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("""
+        **🟢 Zone verte : Aurores visibles**
+        - Au-dessus de la limite Kp
+        - Bonnes chances d'observation
+        - Vérifiez la météo locale
+        
+        **🔴 Zone rouge : Aurores non visibles**
+        - En-dessous de la limite
+        - Attendez une activité plus forte
+        """)
+    
+    with col2:
+        st.markdown("""
+        **⭐ Étoile jaune : Votre position**
+        - Votre localisation actuelle
+        - Dans la zone verte ? GO ! 🎉
+        
+        **📏 Ligne dorée : Limite d'aurores**
+        - Latitude minimale
+        - Dépend du Kp
+        """)
+    
+    st.markdown("---")
+    st.caption("📡 Source : NOAA SWPC (indice Kp) + Modèle de latitude géomagnétique")
 
 
 # -------- Météo actuelle (OpenWeatherMap) --------
-with tab2:
+with tab3:
     st.subheader("🌤 Météo Actuelle")
     st.markdown(" ")
     st.markdown(" ")
@@ -405,7 +648,7 @@ with tab2:
 
 
 # -------- Prévisions météo --------
-with tab3:
+with tab4:
     st.subheader("☁️ Prévisions Météo (48 prochaines heures)")
     st.markdown(" ")
 
@@ -694,7 +937,7 @@ with tab3:
 
                 
 # -------- Webcams --------
-with tab4:
+with tab5:
     st.subheader("📷 Webcams en Direct")
     st.markdown("Restez informé avec des vues en direct du ciel et des aurores depuis différents sites.")
 
@@ -753,7 +996,7 @@ with tab4:
 
 # -------- Prévisions Aurores — Animation 30 Minutes --------
 
-with tab5:
+with tab6:
     import io
     import time
     from datetime import datetime, timedelta, timezone
@@ -912,7 +1155,7 @@ with tab5:
 
 
 # -------- À propos --------
-with tab6:
+with tab7:
     st.subheader("ℹ️ À Propos")
 
     st.markdown("""
