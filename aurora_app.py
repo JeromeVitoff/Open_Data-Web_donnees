@@ -961,22 +961,22 @@ with tab5:
         st.caption("🕐 En direct quand actif • Meilleure période : septembre-mars")
 
     with col2:
-        st.markdown("#### Lac Apavatn, Islande 🇮🇸")
-        st.video("https://www.youtube.com/watch?v=feB3BzDj9mo")
-        st.caption("🕐 En direct quand actif • Saison des aurores : septembre-avril")
+        st.markdown("#### Kilpisjärvi (North view), Finlande 🇫🇮")
+        st.video("https://www.youtube.com/watch?v=ccTVAhJU5lg")
+        st.caption("🕐 En direct • Kilpisjärvi (North view), Finlande")
 
     st.markdown("---")
 
     # Rangée 2
     col3, col4 = st.columns(2)
     with col3:
-        st.markdown("#### Banff, Canada 🇨🇦")
-        st.video("https://www.youtube.com/watch?v=Y-Pd4S2y654")
-        st.caption("🕐 En direct • Parc national des Rocheuses")
+        st.markdown("#### Tasiilaq, Greenland 🇬🇱")
+        st.video("https://www.youtube.com/watch?v=dnlQtDad6Dk")
+        st.caption("🕐 En direct Tasiilaq, Greenland ")
 
     with col4:
         st.markdown("#### Rotsund, Norvège 🇳🇴")
-        st.video("https://www.youtube.com/watch?v=vuHCnnjijgI")
+        st.video("https://www.youtube.com/watch?v=phgnmXYHAwA")
         st.caption("🕐 En direct • Nord de la Norvège")
 
     st.markdown("---")
