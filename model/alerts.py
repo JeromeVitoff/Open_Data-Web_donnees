@@ -17,7 +17,8 @@ def send_aurora_alert_email(
     score: float,
     cloud_pct: float = None,
     dark_flag: int = None,
-    smtp_config: dict = None
+    smtp_config: dict = None,
+    min_kp: int = None  # ← NOUVEAU PARAMÈTRE
 ) -> tuple[bool, str]:
     """
     Envoie une alerte email quand les conditions d'aurores sont favorables.
@@ -30,6 +31,7 @@ def send_aurora_alert_email(
         cloud_pct: Pourcentage de couverture nuageuse (optionnel)
         dark_flag: 1 si nuit, 0 si jour (optionnel)
         smtp_config: Configuration SMTP (serveur, port, identifiants)
+        min_kp: Kp minimum calculé pour cette localisation (optionnel)
     
     Returns:
         (success: bool, message: str) - Tuple avec succès et message
@@ -37,6 +39,7 @@ def send_aurora_alert_email(
     Usage:
         >>> success, msg = send_aurora_alert_email(
         ...     "user@example.com", 6.5, "Stockholm", 0.82,
+        ...     cloud_pct=15.0, dark_flag=1, min_kp=4,
         ...     smtp_config={...}
         ... )
         >>> print(msg)
@@ -63,6 +66,29 @@ def send_aurora_alert_email(
         
         # Calculer le ciel dégagé si cloud_pct fourni
         clear_pct = 100 - cloud_pct if cloud_pct is not None else None
+        
+        # Message personnalisé selon le Kp minimum
+        kp_info_html = ""
+        kp_info_text = ""
+        
+        if min_kp is not None:
+            if min_kp <= 2:
+                kp_message = f"🎉 Excellente nouvelle ! Votre localisation est idéale pour observer les aurores (Kp minimum : {min_kp}). Vous en verrez souvent !"
+            elif min_kp <= 5:
+                kp_message = f"✅ Bonne localisation ! Les aurores sont régulièrement visibles ici (Kp minimum : {min_kp})."
+            elif min_kp <= 7:
+                kp_message = f"⚠️ Les aurores sont rares à cette latitude (Kp minimum : {min_kp}). Profitez de cette occasion !"
+            else:
+                kp_message = f"🔴 Événement exceptionnel ! Les aurores sont très rares ici (Kp minimum : {min_kp}). Ne manquez pas ce spectacle unique !"
+            
+            kp_info_html = f"""
+            <div style="background-color: #fff3cd; padding: 15px; border-left: 4px solid #ffc107; margin: 20px 0; border-radius: 3px;">
+                <p style="margin: 0;"><strong>📍 Information sur votre localisation :</strong></p>
+                <p style="margin: 10px 0 0 0;">{kp_message}</p>
+            </div>
+            """
+            
+            kp_info_text = f"\n📍 Information : {kp_message}\n"
         
         # Construire le message
         msg = MIMEMultipart('alternative')
@@ -146,13 +172,22 @@ def send_aurora_alert_email(
                 <strong>📍 Localisation :</strong> {location}
               </p>
               
+              {kp_info_html}
+              
               <div class="status-box">
                 <h2 style="margin-top: 0; color: {color};">{emoji} Statut : {status}</h2>
                 
                 <div class="metric">
-                  <div class="metric-label">Indice Kp</div>
+                  <div class="metric-label">Indice Kp Actuel</div>
                   <div class="metric-value">{kp_value:.1f}<span style="font-size: 14px; color: #666;"> / 9</span></div>
                 </div>
+                
+                {f'''
+                <div class="metric">
+                  <div class="metric-label">Kp Minimum Requis</div>
+                  <div class="metric-value">{min_kp}<span style="font-size: 14px; color: #666;"> / 9</span></div>
+                </div>
+                ''' if min_kp is not None else ''}
                 
                 <div class="metric">
                   <div class="metric-label">Score de Probabilité</div>
@@ -202,7 +237,7 @@ def send_aurora_alert_email(
             
             <div class="footer">
               <p><strong>AurorAlerte</strong> - Dashboard de surveillance des aurores boréales</p>
-              <p>Vous recevez cet email car vous avez activé les alertes dans AurorAlerte.</p>
+              <p>Vous recevez cet email car vous avez activé les alertes automatiques dans AurorAlerte.</p>
               <p style="font-size: 11px; color: #999;">
                 {pd.Timestamp.now().strftime('%Y-%m-%d %H:%M:%S')} UTC
               </p>
@@ -216,9 +251,10 @@ def send_aurora_alert_email(
         🌌 ALERTE AURORES BORÉALES !
         
         Conditions {status} détectées à {location}
-        
+        {kp_info_text}
         📊 Données actuelles :
-        - Indice Kp : {kp_value:.1f} / 9
+        - Indice Kp actuel : {kp_value:.1f} / 9
+        {f'- Kp minimum requis : {min_kp} / 9' if min_kp is not None else ''}
         - Score de Probabilité : {score:.2f} / 1.0
         {f'- Ciel Dégagé : {clear_pct:.0f}%' if clear_pct is not None else ''}
         {f'- Obscurité : {"Nuit" if dark_flag == 1 else "Jour"}' if dark_flag is not None else ''}
@@ -329,7 +365,7 @@ if __name__ == "__main__":
         'sender_password': 'votre_mot_de_passe_app'
     }
     
-    # Test d'envoi
+    # Test d'envoi AVEC le Kp minimum
     success, message = send_aurora_alert_email(
         recipient_email="destinataire@example.com",
         kp_value=6.5,
@@ -337,7 +373,8 @@ if __name__ == "__main__":
         score=0.82,
         cloud_pct=15.0,
         dark_flag=1,
-        smtp_config=test_config
+        smtp_config=test_config,
+        min_kp=4  # ← NOUVEAU
     )
     
     if success:

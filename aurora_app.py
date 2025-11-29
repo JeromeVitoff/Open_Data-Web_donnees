@@ -80,6 +80,65 @@ def translate_country_to_english(place: str) -> str:
 # ✅ CETTE LIGNE DOIT ÊTRE LA PREMIÈRE COMMANDE STREAMLIT !
 st.set_page_config(page_title="AurorAlerte", page_icon="🌌", layout="wide")
 
+# ============================================
+# DÉFINITIONS GLOBALES
+# ============================================
+
+# Table de correspondance Kp → Latitude limite
+kp_zones = {
+    0: 66.5,  # Kp 0 → 66.5°N (cercle arctique)
+    1: 64.5,  # Kp 1 → 64.5°N
+    2: 62.4,  # Kp 2 → 62.4°N
+    3: 60.4,  # Kp 3 → 60.4°N (Rovaniemi)
+    4: 58.3,  # Kp 4 → 58.3°N (Stockholm, Helsinki)
+    5: 56.3,  # Kp 5 → 56.3°N (Écosse)
+    6: 54.2,  # Kp 6 → 54.2°N (Nord Angleterre)
+    7: 52.2,  # Kp 7 → 52.2°N (Londres, Amsterdam)
+    8: 50.1,  # Kp 8 → 50.1°N (Bruxelles, Paris Nord)
+    9: 48.1   # Kp 9 → 48.1°N (Paris, Munich)
+}
+
+# ============================================
+# DÉFINITIONS GLOBALES
+# ============================================
+
+# Table de correspondance Kp → Latitude limite
+kp_zones = {
+    0: 66.5, 1: 64.5, 2: 62.4, 3: 60.4, 4: 58.3,
+    5: 56.3, 6: 54.2, 7: 52.2, 8: 50.1, 9: 48.1
+}
+
+# ============================================
+# FONCTION DE CALCUL AUTOMATIQUE DU KP MINIMUM
+# ============================================
+
+def calculate_min_kp_for_location(latitude):
+    """
+    Calcule le Kp minimum nécessaire pour voir les aurores à une latitude donnée.
+    
+    Args:
+        latitude (float): Latitude de la localisation (ex: 59.33 pour Stockholm)
+    
+    Returns:
+        int: Indice Kp minimum nécessaire
+    
+    Exemples:
+        >>> calculate_min_kp_for_location(59.33)  # Stockholm
+        4
+        >>> calculate_min_kp_for_location(69.65)  # Tromsø  
+        1
+        >>> calculate_min_kp_for_location(48.85)  # Paris
+        9
+    """
+    # Parcourir du Kp le plus élevé au plus faible
+    for kp in range(9, -1, -1):
+        lat_limit = kp_zones.get(kp, 66.5)
+        if latitude >= lat_limit:
+            return kp
+    # Si latitude < 48.1°N (limite Kp 9)
+    return 9
+
+
 # --- Image bannière (fichier local)
 BANNER = Path(__file__).parent / "assets" / "Gemini_Generated_Image_qaqnevqaqnevqaqn.png"
 
@@ -137,14 +196,13 @@ if refresh:
     st.rerun()
 
 # AJOUTEZ :
-
 st.sidebar.markdown("---")
-st.sidebar.subheader("📧 Alertes Email")
+st.sidebar.subheader("📧 Alertes Email Automatiques")
 
 alerts_enabled = st.sidebar.checkbox(
     "Activer les alertes email",
     value=False,
-    help="Recevez un email quand les conditions sont favorables"
+    help="Recevez un email automatique quand les aurores sont visibles depuis votre localisation"
 )
 
 if alerts_enabled:
@@ -157,26 +215,156 @@ if alerts_enabled:
     if not email_config_ok:
         st.sidebar.error("❌ Configuration email manquante. Voir secrets.toml")
     else:
+        st.sidebar.markdown("### 📧 Configuration")
+        
+        # Champ email
         recipient_email = st.sidebar.text_input(
             "Votre email",
-            placeholder="votre.email@exemple.com"
+            placeholder="votre.email@exemple.com",
+            help="Adresse où vous recevrez les alertes automatiques"
         )
         
-        kp_threshold = st.sidebar.slider(
-            "Seuil Kp minimum",
-            3.0, 9.0, 5.0, 0.5
-        )
+        # Validation de l'email
+        email_valide = False
+        if recipient_email:
+            import re
+            email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+            if re.match(email_pattern, recipient_email):
+                st.sidebar.success(f"✅ Email valide")
+                email_valide = True
+            else:
+                st.sidebar.error("❌ Format d'email invalide")
         
-        cooldown_hours = st.sidebar.slider(
-            "Intervalle entre alertes (h)",
-            0.5, 6.0, 1.0, 0.5
-        )
+        # Bouton de validation
+        if recipient_email and email_valide:
+            valider_email = st.sidebar.button(
+                "✉️ Activer les Alertes Automatiques",
+                type="primary",
+                help="Le système calculera automatiquement quand vous alerter selon votre ville",
+                use_container_width=True
+            )
+            
+            # Initialiser l'état de validation
+            if 'email_validated' not in st.session_state:
+                st.session_state.email_validated = False
+                st.session_state.validated_email = None
+            
+            # Si bouton cliqué, valider l'email
+            if valider_email:
+                st.session_state.email_validated = True
+                st.session_state.validated_email = recipient_email
+                st.sidebar.success("🎉 Alertes automatiques activées !")
+                
+            
+            # Afficher le statut de validation
+            if st.session_state.email_validated and st.session_state.validated_email == recipient_email:
+                st.sidebar.markdown("---")
+                
+                st.sidebar.info(f"""
+                📬 **Alertes actives**
+                
+                Email : {recipient_email}
+                
+                Le système vous alertera automatiquement quand les aurores sont visibles depuis votre localisation.
+                """)
+                
+                # Bouton pour désactiver
+                if st.sidebar.button("🚫 Désactiver les Alertes", help="Désactive les alertes"):
+                    st.session_state.email_validated = False
+                    st.session_state.validated_email = None
+                    st.sidebar.warning("⚠️ Alertes désactivées")
         
+        # Paramètres avancés (optionnel - replié par défaut)
+        if recipient_email and email_valide and st.session_state.get('email_validated', False):
+            st.sidebar.markdown("---")
+            
+            with st.sidebar.expander("⚙️ Paramètres Avancés", expanded=False):
+                st.markdown("""
+                **Mode automatique activé**
+                
+                Le seuil Kp est calculé automatiquement selon votre ville.
+                Vous pouvez personnaliser manuellement ci-dessous :
+                """)
+                
+                # Option pour override manuel
+                manual_kp = st.checkbox(
+                    "Personnaliser le seuil Kp",
+                    value=False,
+                    help="Par défaut, le seuil est calculé automatiquement"
+                )
+                
+                if manual_kp:
+                    kp_threshold = st.slider(
+                        "Seuil Kp personnalisé",
+                        0.0, 9.0, 5.0, 0.5,
+                        help="Indice Kp minimum pour déclencher une alerte"
+                    )
+                    st.caption(f"💡 Aurores visibles jusqu'à {kp_zones.get(int(kp_threshold), 66.5):.1f}°N")
+                else:
+                    kp_threshold = None  # Sera calculé automatiquement
+                
+                # Cooldown
+                cooldown_hours = st.slider(
+                    "Intervalle entre alertes (h)",
+                    0.5, 6.0, 1.0, 0.5,
+                    help="Temps d'attente minimum entre deux alertes"
+                )
+                
+                st.caption(f"💡 Maximum {int(24/cooldown_hours)} alertes par jour")
+        else:
+            # Valeurs par défaut
+            kp_threshold = None  # Calcul automatique
+            cooldown_hours = 1.0
+        
+        # Initialiser les variables de session
         if 'last_alert_time' not in st.session_state:
             st.session_state.last_alert_time = None
         if 'alerts_sent_count' not in st.session_state:
             st.session_state.alerts_sent_count = 0
-
+        
+        # Statistiques (si activé)
+        if st.session_state.get('email_validated', False):
+            st.sidebar.markdown("---")
+            st.sidebar.markdown("### 📊 Statistiques")
+            
+            col_alert1, col_alert2 = st.sidebar.columns(2)
+            
+            with col_alert1:
+                st.metric(
+                    "Alertes Envoyées",
+                    st.session_state.alerts_sent_count,
+                    help="Nombre total d'alertes envoyées"
+                )
+            
+            with col_alert2:
+                if st.session_state.last_alert_time:
+                    temps_ecoule = pd.Timestamp.now() - st.session_state.last_alert_time
+                    heures_ecoulees = temps_ecoule.total_seconds() / 3600
+                    
+                    if heures_ecoulees < cooldown_hours:
+                        temps_restant = cooldown_hours - heures_ecoulees
+                        st.metric(
+                            "Cooldown",
+                            f"{temps_restant:.1f}h",
+                            delta="En attente",
+                            delta_color="off"
+                        )
+                    else:
+                        st.metric(
+                            "Statut",
+                            "Prêt ✅"
+                        )
+                else:
+                    st.metric(
+                        "Dernière Alerte",
+                        "Jamais"
+                    )
+            
+            # Bouton reset
+            if st.sidebar.button("🔄 Réinitialiser Statistiques", help="Remet les compteurs à zéro"):
+                st.session_state.alerts_sent_count = 0
+                st.session_state.last_alert_time = None
+                st.sidebar.success("✅ Statistiques réinitialisées")
 
 # -----------------------------
 # Récupération des données principales
@@ -236,35 +424,93 @@ except Exception as e:
 score = chance_score(kp_now, cloud_now, dark, w1=w_kp, w2=w_sky, w3=w_dark)
 
 
-# APRÈS : score = chance_score(kp_now, cloud_now, dark, w1=w_kp, w2=w_sky, w3=w_dark)
-# AJOUTEZ :
+# ============================================
+# ENVOI AUTOMATIQUE D'EMAIL
+# ============================================
+# Après : score = chance_score(kp_now, cloud_now, dark, w1=w_kp, w2=w_sky, w3=w_dark)
 
 if alerts_enabled and email_config_ok and recipient_email and validate_email(recipient_email):
-    if kp_now and should_send_alert(kp_now, kp_threshold, st.session_state.last_alert_time, cooldown_hours):
-        smtp_config = {
-            'smtp_server': st.secrets['email']['smtp_server'],
-            'smtp_port': st.secrets['email']['smtp_port'],
-            'sender_email': st.secrets['email']['sender_email'],
-            'sender_password': st.secrets['email']['sender_password']
-        }
+    if st.session_state.get('email_validated', False):
         
-        with st.spinner("📧 Envoi de l'alerte..."):
-            success, message = send_aurora_alert_email(
-                recipient_email, kp_now, f"{geo['name']}, {geo['country']}",
-                score, cloud_now, dark, smtp_config
-            )
+        # CALCUL AUTOMATIQUE du Kp minimum pour cette localisation
+        min_kp_auto = calculate_min_kp_for_location(lat)
         
-        if success:
-            st.session_state.last_alert_time = pd.Timestamp.now()
-            st.session_state.alerts_sent_count += 1
-            st.sidebar.success(f"✅ Alerte envoyée ! Kp={kp_now:.1f}")
+        # Utiliser le Kp manuel si activé, sinon le Kp automatique
+        kp_threshold_final = kp_threshold if kp_threshold is not None else min_kp_auto
+        
+        # Afficher le Kp calculé dans la sidebar (MODE AUTOMATIQUE SEULEMENT)
+        if kp_threshold is None:  # Mode automatique
+            lat_limit_auto = kp_zones.get(min_kp_auto, 66.5)
+            
+            # Message contextuel selon le Kp nécessaire
+            if min_kp_auto <= 2:
+                st.sidebar.success(f"""
+                🎉 **Excellente localisation !**
+                
+                **{geo['name']} ({lat:.2f}°N)**
+                - Seuil Kp automatique : **{min_kp_auto}**
+                - Limite latitude : {lat_limit_auto:.1f}°N
+                - Aurores fréquentes (Kp ≥ {min_kp_auto})
+                """)
+            elif min_kp_auto <= 5:
+                st.sidebar.info(f"""
+                ✅ **Bonne localisation**
+                
+                **{geo['name']} ({lat:.2f}°N)**
+                - Seuil Kp automatique : **{min_kp_auto}**
+                - Limite latitude : {lat_limit_auto:.1f}°N
+                - Aurores régulières (Kp ≥ {min_kp_auto})
+                """)
+            elif min_kp_auto <= 7:
+                st.sidebar.warning(f"""
+                ⚠️ **Aurores rares ici**
+                
+                **{geo['name']} ({lat:.2f}°N)**
+                - Seuil Kp automatique : **{min_kp_auto}**
+                - Limite latitude : {lat_limit_auto:.1f}°N
+                - Tempêtes nécessaires (Kp ≥ {min_kp_auto})
+                """)
+            else:
+                st.sidebar.error(f"""
+                🔴 **Aurores très rares**
+                
+                **{geo['name']} ({lat:.2f}°N)**
+                - Seuil Kp automatique : **{min_kp_auto}**
+                - Limite latitude : {lat_limit_auto:.1f}°N
+                - Événements extrêmes (Kp ≥ {min_kp_auto})
+                
+                💡 Conseil : Voyagez plus au nord !
+                """)
+        
+        # Vérifier si on doit envoyer une alerte
+        if kp_now and should_send_alert(kp_now, kp_threshold_final, st.session_state.last_alert_time, cooldown_hours):
+            smtp_config = {
+                'smtp_server': st.secrets['email']['smtp_server'],
+                'smtp_port': st.secrets['email']['smtp_port'],
+                'sender_email': st.secrets['email']['sender_email'],
+                'sender_password': st.secrets['email']['sender_password']
+            }
+            
+            with st.spinner("📧 Envoi de l'alerte..."):
+                success, message = send_aurora_alert_email(
+                    recipient_email, kp_now, f"{geo['name']}, {geo['country']}",
+                    score, cloud_now, dark, smtp_config,
+                    min_kp_auto
+                )
+            
+            if success:
+                st.session_state.last_alert_time = pd.Timestamp.now()
+                st.session_state.alerts_sent_count += 1
+                st.sidebar.success(f"✅ Alerte envoyée ! Kp={kp_now:.1f}")
+            else:
+                st.sidebar.error(f"❌ {message}")
         else:
-            st.sidebar.error(f"❌ {message}")
-    else:
-        if st.session_state.last_alert_time and kp_now and kp_now >= kp_threshold:
-            time_since = (pd.Timestamp.now() - st.session_state.last_alert_time).total_seconds() / 3600
-            time_left = max(0, cooldown_hours - time_since)
-            st.sidebar.info(f"⏳ Prochaine alerte dans {time_left:.1f}h")
+            # Afficher temps restant si cooldown actif
+            if st.session_state.last_alert_time and kp_now and kp_now >= kp_threshold_final:
+                time_since = (pd.Timestamp.now() - st.session_state.last_alert_time).total_seconds() / 3600
+                time_left = max(0, cooldown_hours - time_since)
+                if time_left > 0:
+                    st.sidebar.info(f"⏳ Prochaine alerte dans {time_left:.1f}h")
             
             
 
@@ -482,13 +728,7 @@ with tab2:
             st.markdown("<br>", unsafe_allow_html=True)
             rechercher_btn = st.button("🔍 Rechercher", type="primary")
     
-    # ============================================
-    # DONNÉES
-    # ============================================
-    kp_zones = {
-        0: 66.5, 1: 64.5, 2: 62.4, 3: 60.4, 4: 58.3,
-        5: 56.3, 6: 54.2, 7: 52.2, 8: 50.1, 9: 48.1
-    }
+    
     
     lat_limit = kp_zones.get(int(kp_display), 66.5)
     

@@ -1,0 +1,71 @@
+\babel@toc {french}{}\relax 
+\contentsline {chapter}{\numberline {1}Contexte et Objectifs du Projet}{3}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Contexte Academique}{3}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Inspiration et Choix du Sujet}{3}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Objectifs du Projet}{3}{section.1.3}%
+\contentsline {chapter}{\numberline {2}Session de Developpement du 29 Novembre 2025}{4}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Vue d'Ensemble de la Session}{4}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Probleme 1 : Optimisation de la Carte Mondiale}{4}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Symptomes Observes}{4}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Diagnostic}{4}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}Solutions Explorees}{5}{subsection.2.2.3}%
+\contentsline {subsection}{\numberline {2.2.4}Solution Finale Retenue}{5}{subsection.2.2.4}%
+\contentsline {subsection}{\numberline {2.2.5}Resultats et Ameliorations}{5}{subsection.2.2.5}%
+\contentsline {section}{\numberline {2.3}Amelioration 2 : Systeme de Recherche de Villes Dynamique}{5}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Besoin Identifie}{5}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Architecture Implementee}{5}{subsection.2.3.2}%
+\contentsline {subsection}{\numberline {2.3.3}Fonctionnalites Cles}{6}{subsection.2.3.3}%
+\contentsline {subsubsection}{Geocodage Intelligent}{6}{subsubsection*.1}%
+\contentsline {subsubsection}{Detection Intelligente des Doublons}{6}{subsubsection*.2}%
+\contentsline {subsubsection}{Messages de Feedback Utilisateur}{6}{subsubsection*.3}%
+\contentsline {subsection}{\numberline {2.3.4}Statistiques Enrichies}{6}{subsection.2.3.4}%
+\contentsline {subsection}{\numberline {2.3.5}Elements Pedagogiques Ajoutes}{7}{subsection.2.3.5}%
+\contentsline {subsubsection}{Legende Interactive}{7}{subsubsection*.4}%
+\contentsline {subsubsection}{Tableau d'Interprétation Kp}{7}{subsubsection*.5}%
+\contentsline {section}{\numberline {2.4}Amelioration 3 : Systeme d'Alertes Email Automatise}{7}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}Problematique Initiale}{7}{subsection.2.4.1}%
+\contentsline {subsection}{\numberline {2.4.2}Solution : Calcul Automatique du Seuil Kp}{8}{subsection.2.4.2}%
+\contentsline {subsubsection}{Principe Fondamental}{8}{subsubsection*.6}%
+\contentsline {subsubsection}{Table de Correspondance Scientifique}{8}{subsubsection*.7}%
+\contentsline {subsubsection}{Exemples de Calcul Automatique}{8}{subsubsection*.8}%
+\contentsline {subsection}{\numberline {2.4.3}Nouvelle Interface Utilisateur Simplifiee}{8}{subsection.2.4.3}%
+\contentsline {subsubsection}{Workflow Optimise}{8}{subsubsection*.9}%
+\contentsline {subsubsection}{Messages Contextuels Intelligents}{9}{subsubsection*.10}%
+\contentsline {subsubsection}{Parametres Avances pour Utilisateurs Experimentes}{9}{subsubsection*.11}%
+\contentsline {subsection}{\numberline {2.4.4}Avantages de l'Approche Automatisee}{9}{subsection.2.4.4}%
+\contentsline {subsection}{\numberline {2.4.5}Correction d'un Bug Architectural Critique}{9}{subsection.2.4.5}%
+\contentsline {subsubsection}{Erreur Detectee}{9}{subsubsection*.12}%
+\contentsline {subsubsection}{Analyse de la Cause}{9}{subsubsection*.13}%
+\contentsline {subsubsection}{Solution Implementee}{10}{subsubsection*.14}%
+\contentsline {section}{\numberline {2.5}Amelioration 4 : Enrichissement des Emails d'Alerte}{10}{section.2.5}%
+\contentsline {subsection}{\numberline {2.5.1}Modification de l'Architecture Email}{10}{subsection.2.5.1}%
+\contentsline {subsection}{\numberline {2.5.2}Nouveau Contenu Email Personnalise}{10}{subsection.2.5.2}%
+\contentsline {subsubsection}{Section Informative Contextuelle}{10}{subsubsection*.15}%
+\contentsline {subsubsection}{Nouvelles Metriques Affichees}{10}{subsubsection*.16}%
+\contentsline {subsection}{\numberline {2.5.3}Structure de l'Email Ameliore}{10}{subsection.2.5.3}%
+\contentsline {subsubsection}{Format HTML Professionnel}{10}{subsubsection*.17}%
+\contentsline {subsubsection}{Version Texte Alternative}{11}{subsubsection*.18}%
+\contentsline {section}{\numberline {2.6}Tests et Validation du Systeme d'Alertes}{11}{section.2.6}%
+\contentsline {subsection}{\numberline {2.6.1}Creation d'Outils de Test Dedies}{11}{subsection.2.6.1}%
+\contentsline {subsubsection}{Fonctionnalites du Script de Test}{11}{subsubsection*.19}%
+\contentsline {subsection}{\numberline {2.6.2}Methodes de Test Documentees}{11}{subsection.2.6.2}%
+\contentsline {subsection}{\numberline {2.6.3}Guide de Configuration Gmail}{11}{subsection.2.6.3}%
+\contentsline {subsubsection}{Processus de Configuration Documente}{11}{subsubsection*.20}%
+\contentsline {subsection}{\numberline {2.6.4}Documentation des Problemes Courants}{12}{subsection.2.6.4}%
+\contentsline {section}{\numberline {2.7}Livrables de la Session}{12}{section.2.7}%
+\contentsline {subsection}{\numberline {2.7.1}Fichiers de Developpement Crees}{12}{subsection.2.7.1}%
+\contentsline {subsection}{\numberline {2.7.2}Documentation Technique Produite}{13}{subsection.2.7.2}%
+\contentsline {section}{\numberline {2.8}Statistiques de la Session}{13}{section.2.8}%
+\contentsline {chapter}{\numberline {3}Technologies et APIs}{14}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Stack Technique}{14}{section.3.1}%
+\contentsline {section}{\numberline {3.2}APIs Integrees}{14}{section.3.2}%
+\contentsline {chapter}{\numberline {4}Fonctionnalites Implementees}{15}{chapter.4}%
+\contentsline {chapter}{\numberline {5}Tests et Validation}{16}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Tests Fonctionnels}{16}{section.5.1}%
+\contentsline {chapter}{\numberline {6}Ameliorations Futures}{17}{chapter.6}%
+\contentsline {chapter}{\numberline {7}Conclusion}{18}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Bilan des Objectifs}{18}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Competences Acquises}{18}{section.7.2}%
+\contentsline {section}{\numberline {7.3}Reflexion Finale}{18}{section.7.3}%
+\contentsline {chapter}{\numberline {A}Statistiques Finales du Projet}{20}{appendix.A}%
+\contentsline {chapter}{\numberline {B}Ressources et Liens}{21}{appendix.B}%
