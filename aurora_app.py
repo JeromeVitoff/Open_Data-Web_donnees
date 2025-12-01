@@ -77,7 +77,7 @@ def translate_country_to_english(place: str) -> str:
 
 
 # ---- Configuration de la page ---- #
-# ✅ CETTE LIGNE DOIT ÊTRE LA PREMIÈRE COMMANDE STREAMLIT !
+#  CETTE LIGNE DOIT ÊTRE LA PREMIÈRE COMMANDE STREAMLIT !
 st.set_page_config(page_title="AurorAlerte", page_icon="🌌", layout="wide")
 
 # ============================================
@@ -230,10 +230,10 @@ if alerts_enabled:
             import re
             email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
             if re.match(email_pattern, recipient_email):
-                st.sidebar.success(f"✅ Email valide")
+                st.sidebar.success(f" Email valide")
                 email_valide = True
             else:
-                st.sidebar.error("❌ Format d'email invalide")
+                st.sidebar.error(" Format d'email invalide")
         
         # Bouton de validation
         if recipient_email and email_valide:
@@ -253,7 +253,7 @@ if alerts_enabled:
             if valider_email:
                 st.session_state.email_validated = True
                 st.session_state.validated_email = recipient_email
-                st.sidebar.success("🎉 Alertes automatiques activées !")
+                st.sidebar.success(" Alertes automatiques activées !")
                 
             
             # Afficher le statut de validation
@@ -261,7 +261,7 @@ if alerts_enabled:
                 st.sidebar.markdown("---")
                 
                 st.sidebar.info(f"""
-                📬 **Alertes actives**
+                 **Alertes actives**
                 
                 Email : {recipient_email}
                 
@@ -269,10 +269,10 @@ if alerts_enabled:
                 """)
                 
                 # Bouton pour désactiver
-                if st.sidebar.button("🚫 Désactiver les Alertes", help="Désactive les alertes"):
+                if st.sidebar.button(" Désactiver les Alertes", help="Désactive les alertes"):
                     st.session_state.email_validated = False
                     st.session_state.validated_email = None
-                    st.sidebar.warning("⚠️ Alertes désactivées")
+                    st.sidebar.warning(" Alertes désactivées")
         
         # Paramètres avancés (optionnel - replié par défaut)
         if recipient_email and email_valide and st.session_state.get('email_validated', False):
@@ -299,7 +299,7 @@ if alerts_enabled:
                         0.0, 9.0, 5.0, 0.5,
                         help="Indice Kp minimum pour déclencher une alerte"
                     )
-                    st.caption(f"💡 Aurores visibles jusqu'à {kp_zones.get(int(kp_threshold), 66.5):.1f}°N")
+                    st.caption(f" Aurores visibles jusqu'à {kp_zones.get(int(kp_threshold), 66.5):.1f}°N")
                 else:
                     kp_threshold = None  # Sera calculé automatiquement
                 
@@ -310,7 +310,7 @@ if alerts_enabled:
                     help="Temps d'attente minimum entre deux alertes"
                 )
                 
-                st.caption(f"💡 Maximum {int(24/cooldown_hours)} alertes par jour")
+                st.caption(f" Maximum {int(24/cooldown_hours)} alertes par jour")
         else:
             # Valeurs par défaut
             kp_threshold = None  # Calcul automatique
@@ -325,7 +325,7 @@ if alerts_enabled:
         # Statistiques (si activé)
         if st.session_state.get('email_validated', False):
             st.sidebar.markdown("---")
-            st.sidebar.markdown("### 📊 Statistiques")
+            st.sidebar.markdown("###  Statistiques")
             
             col_alert1, col_alert2 = st.sidebar.columns(2)
             
@@ -352,7 +352,7 @@ if alerts_enabled:
                     else:
                         st.metric(
                             "Statut",
-                            "Prêt ✅"
+                            "Prêt "
                         )
                 else:
                     st.metric(
@@ -364,7 +364,7 @@ if alerts_enabled:
             if st.sidebar.button("🔄 Réinitialiser Statistiques", help="Remet les compteurs à zéro"):
                 st.session_state.alerts_sent_count = 0
                 st.session_state.last_alert_time = None
-                st.sidebar.success("✅ Statistiques réinitialisées")
+                st.sidebar.success(" Statistiques réinitialisées")
 
 # -----------------------------
 # Récupération des données principales
@@ -375,7 +375,7 @@ place_en = translate_country_to_english(place)
 
 geo = geocode_place(place_en)
 if not geo:
-    st.error(f"❌ Impossible de trouver la localisation « {place} ».")
+    st.error(f" Impossible de trouver la localisation « {place} ».")
     st.info("""
     💡 **Astuces :**
     - Essayez avec le nom en anglais : "Stockholm, Sweden"
@@ -391,14 +391,14 @@ kp_now, kp_time = None, None
 try:
     kp_now, kp_time = get_kp_now()
 except Exception as e:
-    st.warning(f"⚠️ Impossible de récupérer l'indice Kp : {e}")
+    st.warning(f" Impossible de récupérer l'indice Kp : {e}")
 
 # Obscurité
 dark, sunrise_utc, sunset_utc = 0, None, None
 try:
     dark, sunrise_utc, sunset_utc = darkness_flag(lat, lon)
 except Exception as e:
-    st.warning(f"⚠️ Impossible de récupérer les heures de lever/coucher du soleil : {e}")
+    st.warning(f" Impossible de récupérer les heures de lever/coucher du soleil : {e}")
 
 # Météo & couverture nuageuse actuelle
 wx, cloud_now = None, None
@@ -418,7 +418,7 @@ try:
     cloud_now = float(wx.loc[idx, "cloud_total"])
 
 except Exception as e:
-    st.warning(f"⚠️ Impossible de récupérer les données météo : {e}")
+    st.warning(f" Impossible de récupérer les données météo : {e}")
 
 # Score de probabilité
 score = chance_score(kp_now, cloud_now, dark, w1=w_kp, w2=w_sky, w3=w_dark)
@@ -445,7 +445,7 @@ if alerts_enabled and email_config_ok and recipient_email and validate_email(rec
             # Message contextuel selon le Kp nécessaire
             if min_kp_auto <= 2:
                 st.sidebar.success(f"""
-                🎉 **Excellente localisation !**
+                 **Excellente localisation !**
                 
                 **{geo['name']} ({lat:.2f}°N)**
                 - Seuil Kp automatique : **{min_kp_auto}**
@@ -454,7 +454,7 @@ if alerts_enabled and email_config_ok and recipient_email and validate_email(rec
                 """)
             elif min_kp_auto <= 5:
                 st.sidebar.info(f"""
-                ✅ **Bonne localisation**
+                 **Bonne localisation**
                 
                 **{geo['name']} ({lat:.2f}°N)**
                 - Seuil Kp automatique : **{min_kp_auto}**
@@ -463,7 +463,7 @@ if alerts_enabled and email_config_ok and recipient_email and validate_email(rec
                 """)
             elif min_kp_auto <= 7:
                 st.sidebar.warning(f"""
-                ⚠️ **Aurores rares ici**
+                 **Aurores rares ici**
                 
                 **{geo['name']} ({lat:.2f}°N)**
                 - Seuil Kp automatique : **{min_kp_auto}**
@@ -472,14 +472,14 @@ if alerts_enabled and email_config_ok and recipient_email and validate_email(rec
                 """)
             else:
                 st.sidebar.error(f"""
-                🔴 **Aurores très rares**
+                 **Aurores très rares**
                 
                 **{geo['name']} ({lat:.2f}°N)**
                 - Seuil Kp automatique : **{min_kp_auto}**
                 - Limite latitude : {lat_limit_auto:.1f}°N
                 - Événements extrêmes (Kp ≥ {min_kp_auto})
                 
-                💡 Conseil : Voyagez plus au nord !
+                 Conseil : Voyagez plus au nord !
                 """)
         
         # Vérifier si on doit envoyer une alerte
@@ -491,7 +491,7 @@ if alerts_enabled and email_config_ok and recipient_email and validate_email(rec
                 'sender_password': st.secrets['email']['sender_password']
             }
             
-            with st.spinner("📧 Envoi de l'alerte..."):
+            with st.spinner(" Envoi de l'alerte..."):
                 success, message = send_aurora_alert_email(
                     recipient_email, kp_now, f"{geo['name']}, {geo['country']}",
                     score, cloud_now, dark, smtp_config,
@@ -501,16 +501,16 @@ if alerts_enabled and email_config_ok and recipient_email and validate_email(rec
             if success:
                 st.session_state.last_alert_time = pd.Timestamp.now()
                 st.session_state.alerts_sent_count += 1
-                st.sidebar.success(f"✅ Alerte envoyée ! Kp={kp_now:.1f}")
+                st.sidebar.success(f" Alerte envoyée ! Kp={kp_now:.1f}")
             else:
-                st.sidebar.error(f"❌ {message}")
+                st.sidebar.error(f" {message}")
         else:
             # Afficher temps restant si cooldown actif
             if st.session_state.last_alert_time and kp_now and kp_now >= kp_threshold_final:
                 time_since = (pd.Timestamp.now() - st.session_state.last_alert_time).total_seconds() / 3600
                 time_left = max(0, cooldown_hours - time_since)
                 if time_left > 0:
-                    st.sidebar.info(f"⏳ Prochaine alerte dans {time_left:.1f}h")
+                    st.sidebar.info(f" Prochaine alerte dans {time_left:.1f}h")
             
             
 
@@ -525,13 +525,13 @@ st.caption(f"📍 Localisation : **{geo['name']}** ({geo['country']}) — lat {l
 # -----------------------------
 # APRÈS (7 onglets)
 tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
-    "🌍 Vue d'ensemble",
-    "🗺️ Carte mondiale",  # ← NOUVEAU
-    "🌤 Météo actuelle", 
-    "📅 Prévisions météo", 
-    "📷 Webcams", 
-    "🌌 Prévisions aurores", 
-    "ℹ️ À propos"
+    " Vue d'ensemble",
+    " Carte mondiale",  # ← NOUVEAU
+    " Météo actuelle", 
+    " Prévisions météo", 
+    " Webcams", 
+    " Prévisions aurores", 
+    " À propos"
 ])
 
 
@@ -539,12 +539,12 @@ kp_series = pd.DataFrame()  # toujours défini, même si la récupération écho
 try:
     kp_series = get_kp_series(limit_minutes=240)  # dernières ~4 heures
 except Exception as e:
-    st.warning(f"⚠️ Impossible de récupérer la série Kp : {e}")
+    st.warning(f" Impossible de récupérer la série Kp : {e}")
 
 
 # -------- Vue d'ensemble --------
 with tab1:
-    st.subheader("🌍 Vue d'ensemble")
+    st.subheader(" Vue d'ensemble")
     st.markdown(" ")
     
     # --- Jauge Indice Kp ---
@@ -606,13 +606,13 @@ with tab1:
     col1, col_sp1, col2, col_sp2, col3 = st.columns([1, 0.2, 1, 0.2, 1])
 
     col1.plotly_chart(fig_kp, use_container_width=True)
-    col1.caption("💡 **Indice Kp** : Mesure l'activité géomagnétique. Plus il est élevé, plus les aurores sont visibles au sud.")
+    col1.caption(" **Indice Kp** : Mesure l'activité géomagnétique. Plus il est élevé, plus les aurores sont visibles au sud.")
     
     col2.plotly_chart(fig_cloud, use_container_width=True)
-    col2.caption("💡 **Ciel dégagé** : Pourcentage de ciel sans nuages. 70%+ = bonnes conditions d'observation.")
+    col2.caption(" **Ciel dégagé** : Pourcentage de ciel sans nuages. 70%+ = bonnes conditions d'observation.")
     
     col3.plotly_chart(fig_score, use_container_width=True)
-    col3.caption("💡 **Score global** : Combine Kp, météo et obscurité. 0.7+ = excellentes conditions !")
+    col3.caption(" **Score global** : Combine Kp, météo et obscurité. 0.7+ = excellentes conditions !")
 
 
     st.caption("""
@@ -625,7 +625,7 @@ with tab1:
   - 0.7-1.0 : Excellente probabilité 🟢
 """)
     
-    with st.expander("📊 Historique récent de l'indice Kp (4 dernières heures)"):
+    with st.expander(" Historique récent de l'indice Kp (4 dernières heures)"):
         if not kp_series.empty:
             # Graphique linéaire
             fig_kp_line = px.line(
@@ -641,18 +641,18 @@ with tab1:
             # Téléchargement CSV
             csv_bytes = kp_series.to_csv(index=False).encode("utf-8")
             st.download_button(
-                "📥 Télécharger l'historique Kp (CSV)",
+                " Télécharger l'historique Kp (CSV)",
                 data=csv_bytes,
                 file_name=f"kp_recent_{pd.Timestamp.now(tz='UTC').strftime('%Y%m%d_%H%M')}Z.csv",
                 mime="text/csv"
             )
         else:
-            st.info("ℹ️ Aucune donnée Kp retournée par NOAA SWPC.")
+            st.info(" Aucune donnée Kp retournée par NOAA SWPC.")
 
 
     st.markdown("---")       
 
-    st.caption("📡 Source de données : API Open-Meteo et NOAA SWPC (temps réel).")
+    st.caption(" Source de données : API Open-Meteo et NOAA SWPC (temps réel).")
    
 # ============================================
 # CARTE AVEC RECHERCHE DE VILLES DYNAMIQUE
@@ -660,7 +660,7 @@ with tab1:
 # Villes principales + recherche personnalisée
 
 with tab2:
-    st.subheader("🗺️ Carte Mondiale des Probabilités d'Aurores")
+    st.subheader(" Carte Mondiale des Probabilités d'Aurores")
     st.markdown(" ")
     
     # Récupérer l'indice Kp actuel
@@ -753,7 +753,7 @@ with tab2:
         villes_input_list = [v.strip() for v in villes_recherche_input.split(',') if v.strip()]
         
         if len(villes_input_list) > 5:
-            st.warning("⚠️ Maximum 5 villes. Seules les 5 premières seront affichées.")
+            st.warning(" Maximum 5 villes. Seules les 5 premières seront affichées.")
             villes_input_list = villes_input_list[:5]
         
         # Liste pour stocker les villes déjà existantes
@@ -808,18 +808,18 @@ with tab2:
                         })
                     
                 else:
-                    st.warning(f"⚠️ Ville '{ville_nom}' introuvable")
+                    st.warning(f" Ville '{ville_nom}' introuvable")
             except Exception as e:
-                st.error(f"❌ Erreur pour '{ville_nom}': {e}")
+                st.error(f" Erreur pour '{ville_nom}': {e}")
         
         # Messages de feedback
         if villes_deja_presentes:
-            st.warning(f"⚠️ **Ville(s) déjà présente(s) sur la carte :** {', '.join(villes_deja_presentes)}\n\nVeuillez saisir d'autres villes.")
+            st.warning(f" **Ville(s) déjà présente(s) sur la carte :** {', '.join(villes_deja_presentes)}\n\nVeuillez saisir d'autres villes.")
         
         if villes_recherchees:
-            st.success(f"✅ {len(villes_recherchees)} ville(s) ajoutée(s) sur la carte !")
+            st.success(f" {len(villes_recherchees)} ville(s) ajoutée(s) sur la carte !")
         elif not villes_deja_presentes:
-            st.info("ℹ️ Aucune ville n'a été ajoutée. Vérifiez les noms saisis.")
+            st.info(" Aucune ville n'a été ajoutée. Vérifiez les noms saisis.")
     
     # Combiner toutes les villes
     toutes_villes = villes_principales + villes_recherchees
@@ -860,7 +860,7 @@ with tab2:
         lat=[lat_limit] * 121,
         mode='lines',
         line=dict(color='gold', width=6),
-        name=f'🌟 Limite Kp {kp_display:.1f}',
+        name=f' Limite Kp {kp_display:.1f}',
         hovertemplate=f'<b>Limite de visibilité</b><br>Latitude: {lat_limit:.1f}°N<extra></extra>'
     ))
     
@@ -898,7 +898,7 @@ with tab2:
             hovertemplate=f"<b>{ville['emoji']} {ville['name']}</b><br>" +
                          f"Type: {'Principale' if ville['type'] == 'principale' else 'Personnalisée'}<br>" +
                          f"Latitude: {ville['lat']:.2f}°N<br>" +
-                         f"<b>Aurores: {'✅ VISIBLES' if visible else '❌ NON VISIBLES'}</b><extra></extra>"
+                         f"<b>Aurores: {' VISIBLES' if visible else ' NON VISIBLES'}</b><extra></extra>"
         ))
     
     # Votre localisation actuelle (toujours affichée)
@@ -919,7 +919,7 @@ with tab2:
         hovertemplate=f"<b>📍 {geo['name']}</b><br>" +
                      f"Latitude: {lat:.2f}°N<br>" +
                      f"Longitude: {lon:.2f}°E<br>" +
-                     f"<b>{'✅ AURORES VISIBLES' if lat >= lat_limit else '❌ NON VISIBLES'}</b><extra></extra>"
+                     f"<b>{' AURORES VISIBLES' if lat >= lat_limit else ' NON VISIBLES'}</b><extra></extra>"
     ))
     
     # Configuration
@@ -987,7 +987,7 @@ with tab2:
     
     with col_stat1:
         st.metric(
-            "📏 Latitude Limite",
+            " Latitude Limite",
             f"{lat_limit:.1f}°N",
             delta=f"Kp {kp_display:.1f}"
         )
@@ -998,24 +998,24 @@ with tab2:
         # Déterminer la direction selon la position
         if lat >= lat_limit:
             # Vous êtes DANS la zone visible
-            direction = "dans la zone ✅"
+            direction = "dans la zone "
             delta_color = "normal"
         else:
             # Vous êtes EN DEHORS (trop au sud)
-            direction = "vers le nord ⬆️"
+            direction = "vers le nord ⬆"
             delta_color = "inverse"
         
         st.metric(
-            "🚗 Distance à Limite",
+            " Distance à Limite",
             f"{distance_km:.0f} km",
             delta=direction,
             delta_color=delta_color
         )
     
     with col_stat3:
-        visible_text = "OUI ✅" if lat >= lat_limit else "NON ❌"
+        visible_text = "OUI " if lat >= lat_limit else "NON "
         st.metric(
-            "👁️ Aurores Ici",
+            " Aurores Ici",
             visible_text,
             delta=geo['name']
         )
@@ -1023,7 +1023,7 @@ with tab2:
     with col_stat4:
         villes_visibles = sum(1 for v in toutes_villes if v['lat'] >= lat_limit)
         st.metric(
-            "🏙️ Villes Visibles",
+            " Villes Visibles",
             f"{villes_visibles}/{len(toutes_villes)}",
             delta=f"{int(villes_visibles/len(toutes_villes)*100) if toutes_villes else 0}%"
         )
@@ -1034,7 +1034,7 @@ with tab2:
     # LÉGENDE
     # ============================================
     
-    st.markdown("### 🎨 Légende de la Carte")
+    st.markdown("###  Légende de la Carte")
     
     col1, col2, col3, col4, col5 = st.columns(5)
     
@@ -1043,7 +1043,7 @@ with tab2:
         <div style="background: linear-gradient(135deg, #2e8540, #1e5a2e); 
                     padding: 15px; border-radius: 10px; text-align: center; color: white; height: 130px;
                     display: flex; flex-direction: column; justify-content: center;">
-            <div style="font-size: 30px; margin-bottom: 5px;">🟢</div>
+            <div style="font-size: 30px; margin-bottom: 5px;"></div>
             <b style="font-size: 14px;">Zone Verte</b><br/>
             <small>Aurores visibles</small>
         </div>
@@ -1065,7 +1065,7 @@ with tab2:
         <div style="background: linear-gradient(135deg, #c0392b, #8b2a1f); 
                     padding: 15px; border-radius: 10px; text-align: center; color: white; height: 130px;
                     display: flex; flex-direction: column; justify-content: center;">
-            <div style="font-size: 30px; margin-bottom: 5px;">🔴</div>
+            <div style="font-size: 30px; margin-bottom: 5px;"></div>
             <b style="font-size: 14px;">Zone Rouge</b><br/>
             <small>Aurores invisibles</small>
         </div>
@@ -1076,7 +1076,7 @@ with tab2:
         <div style="background: linear-gradient(135deg, #3498db, #2980b9); 
                     padding: 15px; border-radius: 10px; text-align: center; color: white; height: 130px;
                     display: flex; flex-direction: column; justify-content: center;">
-            <div style="font-size: 30px; margin-bottom: 5px;">⚫</div>
+            <div style="font-size: 30px; margin-bottom: 5px;"></div>
             <b style="font-size: 14px;">Villes Principales</b><br/>
             <small>Cercles noirs</small>
         </div>
@@ -1087,7 +1087,7 @@ with tab2:
         <div style="background: linear-gradient(135deg, #e3b505, #e67e22); 
                     padding: 15px; border-radius: 10px; text-align: center; color: white; height: 130px;
                     display: flex; flex-direction: column; justify-content: center;">
-            <div style="font-size: 30px; margin-bottom: 5px;">◆</div>
+            <div style="font-size: 30px; margin-bottom: 5px;"></div>
             <b style="font-size: 14px;">Villes Perso</b><br/>
             <small>Losanges dorés</small>
         </div>
@@ -1099,7 +1099,7 @@ with tab2:
     # TABLEAU
     # ============================================
     
-    st.markdown("### 📊 Guide d'Interprétation par Kp")
+    st.markdown("###  Guide d'Interprétation par Kp")
     
     interpretation_data = {
         "Kp": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
@@ -1150,27 +1150,27 @@ with tab2:
     
     # Message contextuel
     if kp_display >= 7:
-        st.success(f"🎆 **CONDITIONS EXCEPTIONNELLES !** Aurores jusqu'à {lat_limit:.1f}°N")
+        st.success(f" **CONDITIONS EXCEPTIONNELLES !** Aurores jusqu'à {lat_limit:.1f}°N")
     elif kp_display >= 5:
-        st.warning(f"🟡 **BONNES CONDITIONS !** Aurores jusqu'à {lat_limit:.1f}°N")
+        st.warning(f" **BONNES CONDITIONS !** Aurores jusqu'à {lat_limit:.1f}°N")
     elif kp_display >= 3:
-        st.info(f"🔵 **CONDITIONS NORMALES** Aurores jusqu'à {lat_limit:.1f}°N")
+        st.info(f" **CONDITIONS NORMALES** Aurores jusqu'à {lat_limit:.1f}°N")
     else:
-        st.info(f"⚪ **ACTIVITÉ FAIBLE** Limité aux régions polaires ({lat_limit:.1f}°N+)")
+        st.info(f" **ACTIVITÉ FAIBLE** Limité aux régions polaires ({lat_limit:.1f}°N+)")
     
     st.markdown("---")
-    st.caption("📡 Source : NOAA SWPC + Géocodage Open-Meteo")
+    st.caption(" Source : NOAA SWPC + Géocodage Open-Meteo")
 
 
 # -------- Météo actuelle (OpenWeatherMap) --------
 with tab3:
-    st.subheader("🌤 Météo Actuelle")
+    st.subheader(" Météo Actuelle")
     st.markdown(" ")
     st.markdown(" ")
 
     api_key = st.secrets.get("OPENWEATHER_API_KEY")
     if not api_key:
-        st.error("❌ Clé API OpenWeatherMap introuvable. Ajoutez-la dans `.streamlit/secrets.toml` sous OPENWEATHER_API_KEY.")
+        st.error(" Clé API OpenWeatherMap introuvable. Ajoutez-la dans `.streamlit/secrets.toml` sous OPENWEATHER_API_KEY.")
     else:
         try:
             # Utilise la fonction mise en cache
@@ -1226,34 +1226,34 @@ with tab3:
                 
                 st.markdown(" ")
                 st.info("""
-                💡 **Pourquoi c'est important :** 
+                 **Pourquoi c'est important :** 
                 - **Nuages < 30%** : Bonnes chances de voir les aurores
                 - **Vent fort** : Peut disperser les nuages rapidement
                 - **Température basse** : Typique des nuits claires, idéal pour les aurores
                 """)
 
         except Exception as e:
-            st.error(f"❌ Impossible de récupérer les données OpenWeatherMap : {e}")
+            st.error(f" Impossible de récupérer les données OpenWeatherMap : {e}")
 
         st.markdown("---")
-        st.caption("📡 Source de données : API OpenWeather (temps réel)")
+        st.caption(" Source de données : API OpenWeather (temps réel)")
 
 
 # -------- Prévisions météo --------
 with tab4:
-    st.subheader("☁️ Prévisions Météo (48 prochaines heures)")
+    st.subheader(" Prévisions Météo (48 prochaines heures)")
     st.markdown(" ")
 
     if wx is None or wx.empty:
-        st.info("ℹ️ Données météo indisponibles.")
+        st.info(" Données météo indisponibles.")
     else:
         # ---- Sous-onglets pour cette section
         sub1, sub2, sub3, sub4, sub5 = st.tabs([
-            "🔍 Explorateur météo interactif",
-            "☁️ Nuages",
-            "🌡️ Température",
-            "💨 Vent",
-            "🌧️ Précipitations & Visibilité"
+            " Explorateur météo interactif",
+            " Nuages",
+            " Température",
+            " Vent",
+            " Précipitations & Visibilité"
         ])
 
         # =====================================================================
@@ -1381,8 +1381,8 @@ with tab4:
             st.markdown(" ")
             st.plotly_chart(fig, use_container_width=True)
             st.markdown(" ")
-            st.info("💡 **Lecture du graphique :** Recherchez les périodes où les nuages sont bas (<30%), les précipitations faibles (<20%) et la visibilité haute (>10km). Ces fenêtres sont marquées par des étoiles dorées.")
-            st.caption("💡 Utilisez le curseur et les boutons pour zoomer/défiler.")
+            st.info(" **Lecture du graphique :** Recherchez les périodes où les nuages sont bas (<30%), les précipitations faibles (<20%) et la visibilité haute (>10km). Ces fenêtres sont marquées par des étoiles dorées.")
+            st.caption(" Utilisez le curseur et les boutons pour zoomer/défiler.")
             st.markdown("---")
 
             # ---- Afficher le tableau et le bouton de téléchargement
@@ -1399,17 +1399,17 @@ with tab4:
                     use_container_width=True
                 )
             else:
-                st.info("ℹ️ Aucune heure ne correspond aux seuils. Essayez de les assouplir.")
+                st.info(" Aucune heure ne correspond aux seuils. Essayez de les assouplir.")
 
             st.download_button(
-                "📥 Télécharger les prévisions 48h (CSV)",
+                " Télécharger les prévisions 48h (CSV)",
                 data=wx.to_csv(index=False).encode("utf-8"),
                 file_name="previsions_meteo_48h.csv",
                 mime="text/csv"
             )
 
             st.markdown("---")
-            st.caption("📡 Source de données : API Open-Meteo (temps réel).")
+            st.caption(" Source de données : API Open-Meteo (temps réel).")
 
 
         # =====================================================================
@@ -1426,11 +1426,11 @@ with tab4:
                     title="Couverture Nuageuse Totale"
                 )
                 st.plotly_chart(fig_total, use_container_width=True)
-                st.info("💡 **Idéal pour les aurores :** Moins de 30% de nuages. Les aurores se produisent à 100-400 km d'altitude, bien au-dessus des nuages.")
+                st.info(" **Idéal pour les aurores :** Moins de 30% de nuages. Les aurores se produisent à 100-400 km d'altitude, bien au-dessus des nuages.")
 
                 st.markdown("---")
 
-                st.caption("📡 Source de données : API Open-Meteo (temps réel).")
+                st.caption(" Source de données : API Open-Meteo (temps réel).")
 
             with right:
                 layers = wx[["time", "cloud_low", "cloud_mid", "cloud_high"]].melt(
@@ -1448,7 +1448,7 @@ with tab4:
                     title="Couches Nuageuses (Empilées)"
                 )
                 st.plotly_chart(fig_stack, use_container_width=True)
-                st.info("💡 **Astuce :** Les nuages bas (0-2 km) bloquent le plus la vue. Les nuages hauts (6-12 km) sont souvent transparents aux aurores.")
+                st.info(" **Astuce :** Les nuages bas (0-2 km) bloquent le plus la vue. Les nuages hauts (6-12 km) sont souvent transparents aux aurores.")
 
                 st.markdown("---")
                 
@@ -1469,11 +1469,11 @@ with tab4:
             }.get(t.name, t.name)))
             
             st.plotly_chart(fig_temp, use_container_width=True)
-            st.info("💡 **Indicateur de ciel clair :** Quand température et point de rosée sont proches, l'humidité est élevée = risque de brouillard/nuages. Un écart >5°C = air sec = ciel dégagé.")
+            st.info(" **Indicateur de ciel clair :** Quand température et point de rosée sont proches, l'humidité est élevée = risque de brouillard/nuages. Un écart >5°C = air sec = ciel dégagé.")
 
             st.markdown("---")
 
-            st.caption("📡 Source de données : API Open-Meteo (temps réel).")
+            st.caption(" Source de données : API Open-Meteo (temps réel).")
 
         # =====================================================================
         # 4) VENT
@@ -1491,11 +1491,11 @@ with tab4:
             }.get(t.name, t.name)))
             
             st.plotly_chart(fig_wind, use_container_width=True)
-            st.info("💡 **Impact sur l'observation :** Un vent modéré (5-15 m/s) peut disperser les nuages rapidement. Attention : vent fort (>20 m/s) = difficulté à stabiliser un appareil photo.")
+            st.info(" **Impact sur l'observation :** Un vent modéré (5-15 m/s) peut disperser les nuages rapidement. Attention : vent fort (>20 m/s) = difficulté à stabiliser un appareil photo.")
 
             st.markdown("---")
 
-            st.caption("📡 Source de données : API Open-Meteo (temps réel).")
+            st.caption(" Source de données : API Open-Meteo (temps réel).")
 
         # =====================================================================
         # 5) PRÉCIPITATIONS & VISIBILITÉ
@@ -1510,11 +1510,11 @@ with tab4:
                     title="Probabilité de Précipitations"
                 )
                 st.plotly_chart(fig_prob, use_container_width=True)
-                st.info("💡 **Critique pour les aurores :** Précipitations (pluie/neige) = nuages épais garantis. Visez <20% de probabilité pour une bonne observation.")
+                st.info(" **Critique pour les aurores :** Précipitations (pluie/neige) = nuages épais garantis. Visez <20% de probabilité pour une bonne observation.")
 
                 st.markdown("---")
 
-                st.caption("📡 Source de données : API Open-Meteo (temps réel).")
+                st.caption(" Source de données : API Open-Meteo (temps réel).")
 
             with c2:
                 fig_vis = px.line(
@@ -1523,67 +1523,67 @@ with tab4:
                     title="Visibilité"
                 )
                 st.plotly_chart(fig_vis, use_container_width=True)
-                st.info("💡 **Visibilité optimale :** >10 km = excellent. <5 km = brouillard/brume qui bloque la vue des aurores. Combine avec le % de nuages pour le meilleur résultat.")
+                st.info(" **Visibilité optimale :** >10 km = excellent. <5 km = brouillard/brume qui bloque la vue des aurores. Combine avec le % de nuages pour le meilleur résultat.")
 
                 st.markdown("---")
 
                 
 # -------- Webcams --------
 with tab5:
-    st.subheader("📷 Webcams en Direct")
+    st.subheader(" Webcams en Direct")
     st.markdown("Restez informé avec des vues en direct du ciel et des aurores depuis différents sites.")
 
     st.markdown(" ")
     st.markdown(" ")
     
-    st.info("⚠️ **Note :** La disponibilité des webcams varie selon la saison et l'heure. Certains flux peuvent être hors ligne pendant les mois d'été (soleil de minuit) ou en maintenance.")
+    st.info(" **Note :** La disponibilité des webcams varie selon la saison et l'heure. Certains flux peuvent être hors ligne pendant les mois d'été (soleil de minuit) ou en maintenance.")
 
     st.markdown(" ")
 
     # Rangée 1
     col1, col2 = st.columns(2)
     with col1:
-        st.markdown("#### Parc National d'Abisko, Suède 🇸🇪")
-        st.video("https://www.youtube.com/watch?v=TfOgRJr0Ab8")
-        st.caption("🕐 En direct quand actif • Meilleure période : septembre-mars")
+        st.markdown("#### Churchill, Canada ")
+        st.video("https://www.youtube.com/watch?v=a0i1Kg6fROg")
+        st.caption(" En direct quand actif • Meilleure période : septembre-mars")
 
     with col2:
-        st.markdown("#### Kilpisjärvi (North view), Finlande 🇫🇮")
+        st.markdown("#### Kilpisjärvi (North view), Finlande ")
         st.video("https://www.youtube.com/watch?v=ccTVAhJU5lg")
-        st.caption("🕐 En direct • Kilpisjärvi (North view), Finlande")
+        st.caption(" En direct • Kilpisjärvi (North view), Finlande")
 
     st.markdown("---")
 
     # Rangée 2
     col3, col4 = st.columns(2)
     with col3:
-        st.markdown("#### Tasiilaq, Greenland 🇬🇱")
+        st.markdown("#### Tasiilaq, Greenland ")
         st.video("https://www.youtube.com/watch?v=dnlQtDad6Dk")
-        st.caption("🕐 En direct Tasiilaq, Greenland ")
+        st.caption(" En direct Tasiilaq, Greenland ")
 
     with col4:
-        st.markdown("#### Rotsund, Norvège 🇳🇴")
+        st.markdown("#### Rotsund, Norvège ")
         st.video("https://www.youtube.com/watch?v=phgnmXYHAwA")
-        st.caption("🕐 En direct • Nord de la Norvège")
+        st.caption(" En direct • Nord de la Norvège")
 
     st.markdown("---")
 
     # Rangée 3
     col5, col6 = st.columns(2)
     with col5:
-        st.markdown("#### Kilpisjärvi, Finlande 🇫🇮")
+        st.markdown("#### Kilpisjärvi, Finlande ")
         st.video("https://www.youtube.com/watch?v=ccTVAhJU5lg&ab_channel=Starlapland%2FSamuliKorvanen")
-        st.caption("🕐 En direct • Laponie finlandaise")
+        st.caption(" En direct • Laponie finlandaise")
 
     with col6:
-        st.markdown("#### Alaska, États-Unis 🇺🇸")
+        st.markdown("#### Alaska, États-Unis ")
         st.video("https://www.youtube.com/watch?v=O52zDyxg5QI&ab_channel=ExploreZenDen")
-        st.caption("🕐 En direct 24/7 • L'un des meilleurs sites d'aurores")
+        st.caption(" En direct 24/7 • L'un des meilleurs sites d'aurores")
 
     st.markdown("---")    
 
-    st.caption("💡 **Astuce :** Les webcams fonctionnent mieux pendant la nuit locale. Vérifiez les décalages horaires !")
-    st.caption("📺 Source de données : Flux YouTube en direct.")
+    st.caption(" **Astuce :** Les webcams fonctionnent mieux pendant la nuit locale. Vérifiez les décalages horaires !")
+    st.caption(" Source de données : Flux YouTube en direct.")
 
 
 # -------- Prévisions Aurores — Animation 30 Minutes --------
@@ -1674,11 +1674,11 @@ with tab6:
         if north_gif:
             st.image(north_gif, use_container_width=True)
             st.markdown(" ")
-            st.caption("🟢 Vert = probabilité faible d'aurores")
-            st.caption("🟡 Jaune/Rouge = activité plus intense")
-            st.caption("☀️ Le côté ensoleillé est plus clair")
+            st.caption(" Vert = probabilité faible d'aurores")
+            st.caption(" Jaune/Rouge = activité plus intense")
+            st.caption(" Le côté ensoleillé est plus clair")
         else:
-            st.info("ℹ️ Aucune image récente disponible pour l'hémisphère Nord.")
+            st.info(" Aucune image récente disponible pour l'hémisphère Nord.")
             st.image(north_still_url, use_container_width=True)
 
     with c2:
@@ -1689,13 +1689,13 @@ with tab6:
         if south_gif:
             st.image(south_gif, use_container_width=True)
         else:
-            st.info("ℹ️ Aucune image récente disponible pour l'hémisphère Sud.")
+            st.info(" Aucune image récente disponible pour l'hémisphère Sud.")
             st.image(south_still_url, use_container_width=True)
 
     st.markdown("---")
     
     st.info("""
-    💡 **Comment lire ces cartes :**
+     **Comment lire ces cartes :**
     - **Zone verte** : Probabilité d'aurores faible à modérée (visible seulement dans l'Arctique)
     - **Zone jaune/orange** : Activité aurorale forte (visible jusqu'en Scandinavie du Sud)
     - **Zone rouge** : Tempête géomagnétique majeure (aurores visibles jusqu'en Europe centrale !)
@@ -1719,7 +1719,7 @@ with tab6:
         with col_dl1:
             if north_gif:
                 st.download_button(
-                    "📥 Télécharger animation Nord (GIF)",
+                    " Télécharger animation Nord (GIF)",
                     data=north_gif,
                     file_name=f"aurore_nord_{minutes_window}min_{fps}fps.gif",
                     mime="image/gif",
@@ -1728,7 +1728,7 @@ with tab6:
         with col_dl2:
             if south_gif:
                 st.download_button(
-                    "📥 Télécharger animation Sud (GIF)",
+                    " Télécharger animation Sud (GIF)",
                     data=south_gif,
                     file_name=f"aurore_sud_{minutes_window}min_{fps}fps.gif",
                     mime="image/gif",
@@ -1736,19 +1736,19 @@ with tab6:
                 )
         st.markdown(" ")
     except Exception as e:
-        st.info(f"ℹ️ Impossible de créer les GIF téléchargeables ({e}). Vous pouvez toujours faire un clic droit sur les images pour les enregistrer.")
+        st.info(f" Impossible de créer les GIF téléchargeables ({e}). Vous pouvez toujours faire un clic droit sur les images pour les enregistrer.")
 
-    st.caption("🔄 Les images se rafraîchissent toutes les 5 minutes environ. Si elles semblent anciennes, le modèle peut avoir du retard.")
+    st.caption(" Les images se rafraîchissent toutes les 5 minutes environ. Si elles semblent anciennes, le modèle peut avoir du retard.")
 
     st.markdown("---")
 
-    st.caption("📡 Source de données : NOAA SWPC — Modèle OVATION (mise à jour toutes les 5 minutes)")
+    st.caption(" Source de données : NOAA SWPC — Modèle OVATION (mise à jour toutes les 5 minutes)")
 
 
 
 # -------- À propos --------
 with tab7:
-    st.subheader("ℹ️ À Propos")
+    st.subheader(" À Propos")
 
     st.markdown("""
 **Ce que fait ce tableau de bord**
@@ -1779,10 +1779,10 @@ with tab7:
 5. **Surveillez les Prévisions aurores** pour l'activité géomagnétique en direct
 
 **Meilleure période pour observer les aurores :**
-- 🗓️ **Saison** : Septembre à mars (équinoxes = pic d'activité)
-- 🕐 **Heure** : 22h-2h du matin (pic statistique)
-- 🌍 **Lieu** : Au-dessus du cercle polaire arctique (Kp 3-4 suffit)
-- 🌌 **Conditions** : Ciel dégagé + nuit noire + Kp ≥ 5 = 🎆 JACKPOT !
+-  **Saison** : Septembre à mars (équinoxes = pic d'activité)
+-  **Heure** : 22h-2h du matin (pic statistique)
+-  **Lieu** : Au-dessus du cercle polaire arctique (Kp 3-4 suffit)
+-  **Conditions** : Ciel dégagé + nuit noire + Kp ≥ 5 =  JACKPOT !
 """)
 
     st.markdown("---")
