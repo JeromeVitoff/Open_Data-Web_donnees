@@ -155,13 +155,19 @@ if BANNER.exists():
 # -----------------------------
 # Barre latérale (paramètres)
 # -----------------------------
-st.sidebar.header("🔭 Paramètres")
+# Logo dans la sidebar
+LOGO_PATH = Path(__file__).parent / "assets" / "logo.png"  # Changez le nom selon votre fichier
+if LOGO_PATH.exists():
+    st.sidebar.image(str(LOGO_PATH), use_container_width=True)
+    st.sidebar.markdown("---")  # Ligne de séparation optionnelle
+
+st.sidebar.header(" Paramètres")
 
 # Zone de texte avec exemple et aide
 place = st.sidebar.text_input(
     "Localisation (ville, pays)", 
     value="Stockholm, Suède",
-    help="💡 Vous pouvez utiliser les noms français (Suède, Norvège, Finlande) ou anglais (Sweden, Norway, Finland)"
+    help=" Vous pouvez utiliser les noms français (Suède, Norvège, Finlande) ou anglais (Sweden, Norway, Finland)"
 )
 
 quick = st.sidebar.selectbox(
@@ -184,7 +190,7 @@ w_kp   = st.sidebar.slider("Poids : Indice Kp",      0.0, 1.0, 0.50, 0.05)
 w_sky  = st.sidebar.slider("Poids : Ciel dégagé",    0.0, 1.0, 0.35, 0.05)
 w_dark = st.sidebar.slider("Poids : Obscurité",      0.0, 1.0, 0.15, 0.05)
 
-refresh = st.sidebar.button("🔄 Actualiser les données")
+refresh = st.sidebar.button(" Actualiser les données")
 
 # -----------------------------
 # Rafraîchissement manuel du cache
@@ -197,7 +203,7 @@ if refresh:
 
 # AJOUTEZ :
 st.sidebar.markdown("---")
-st.sidebar.subheader("📧 Alertes Email Automatiques")
+st.sidebar.subheader(" Alertes Email Automatiques")
 
 alerts_enabled = st.sidebar.checkbox(
     "Activer les alertes email",
@@ -213,9 +219,9 @@ if alerts_enabled:
     ])
     
     if not email_config_ok:
-        st.sidebar.error("❌ Configuration email manquante. Voir secrets.toml")
+        st.sidebar.error(" Configuration email manquante. Voir secrets.toml")
     else:
-        st.sidebar.markdown("### 📧 Configuration")
+        st.sidebar.markdown("###  Configuration")
         
         # Champ email
         recipient_email = st.sidebar.text_input(
@@ -238,7 +244,7 @@ if alerts_enabled:
         # Bouton de validation
         if recipient_email and email_valide:
             valider_email = st.sidebar.button(
-                "✉️ Activer les Alertes Automatiques",
+                " Activer les Alertes Automatiques",
                 type="primary",
                 help="Le système calculera automatiquement quand vous alerter selon votre ville",
                 use_container_width=True
@@ -361,7 +367,7 @@ if alerts_enabled:
                     )
             
             # Bouton reset
-            if st.sidebar.button("🔄 Réinitialiser Statistiques", help="Remet les compteurs à zéro"):
+            if st.sidebar.button(" Réinitialiser Statistiques", help="Remet les compteurs à zéro"):
                 st.session_state.alerts_sent_count = 0
                 st.session_state.last_alert_time = None
                 st.sidebar.success(" Statistiques réinitialisées")
@@ -377,7 +383,7 @@ geo = geocode_place(place_en)
 if not geo:
     st.error(f" Impossible de trouver la localisation « {place} ».")
     st.info("""
-    💡 **Astuces :**
+     **Astuces :**
     - Essayez avec le nom en anglais : "Stockholm, Sweden"
     - Vérifiez l'orthographe de la ville
     - Utilisez les localisations rapides dans le menu déroulant ci-dessus
@@ -517,7 +523,7 @@ if alerts_enabled and email_config_ok and recipient_email and validate_email(rec
 # -----------------------------
 # En-tête
 # -----------------------------
-st.title("🌌 Alerte d'Aurores Boréales")
+st.title("Aura Hunter")
 st.caption(f"📍 Localisation : **{geo['name']}** ({geo['country']}) — lat {lat:.3f}, lon {lon:.3f}, fuseau horaire {tz}")
 
 # -----------------------------
@@ -673,7 +679,7 @@ with tab2:
         st.markdown(f"""
         <div style="background: linear-gradient(135deg, #2e8540 0%, #1e5a2e 100%); 
                     padding: 20px; border-radius: 10px; color: white;">
-            <h3 style="margin: 0; color: white;">📊 Indice Kp Actuel : {kp_display:.1f}</h3>
+            <h3 style="margin: 0; color: white;"> Indice Kp Actuel : {kp_display:.1f}</h3>
             <p style="margin: 5px 0 0 0; font-size: 14px;">
                 Carte de l'hémisphère nord - Recherchez votre ville !
             </p>
