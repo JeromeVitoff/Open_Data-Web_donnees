@@ -718,7 +718,7 @@ with tab2:
     # RECHERCHE DE VILLES ADDITIONNELLES
     # ============================================
     
-    with st.expander("🔍 Ajouter des Villes Personnalisées sur la Carte", expanded=False):
+    with st.expander(" Ajouter des Villes Personnalisées sur la Carte", expanded=False):
         st.markdown("**Ajoutez jusqu'à 5 villes supplémentaires à afficher sur la carte.**")
         
         col_search1, col_search2 = st.columns([3, 1])
@@ -931,7 +931,7 @@ with tab2:
     # Configuration
     fig.update_layout(
         title=dict(
-            text=f"🌌 Visibilité des Aurores Boréales (Kp = {kp_display:.1f})",
+            text=f" Visibilité des Aurores Boréales (Kp = {kp_display:.1f})",
             x=0.5,
             xanchor='center',
             font=dict(size=24, family='Arial Black', color='#2e8540')
@@ -1602,7 +1602,7 @@ with tab6:
     import requests
     from PIL import Image  
 
-    st.subheader("🌌 Prévisions Aurores Boréales")
+    st.subheader(" Prévisions Aurores Boréales")
 
 
     # Auto-actualisation toutes les 5 minutes (si streamlit-autorefresh est installé)
@@ -1664,7 +1664,7 @@ with tab6:
     south_still_url = f"https://services.swpc.noaa.gov/images/aurora-forecast-southern-hemisphere.jpg?{urlencode({'t': ts})}"
 
     # Récupérer et assembler les animations
-    with st.spinner("⏳ Chargement des dernières images OVATION de NOAA…"):
+    with st.spinner(" Chargement des dernières images OVATION de NOAA…"):
         north_frames = fetch_frames("north", minutes_window, step_min=5)
         south_frames = fetch_frames("south", minutes_window, step_min=5)
         north_gif = make_gif(north_frames, fps)
@@ -1673,7 +1673,7 @@ with tab6:
     # Disposition : deux panneaux côte à côte
     c1, c2 = st.columns(2)
     with c1:
-        st.markdown(f"#### Hémisphère Nord ({minutes_window} dernières min)")
+        st.markdown(f"#### Aurores boréales ({minutes_window} dernières min)")
         st.markdown(" ")
         st.markdown(" ")
 
@@ -1688,7 +1688,7 @@ with tab6:
             st.image(north_still_url, use_container_width=True)
 
     with c2:
-        st.markdown(f"#### Hémisphère Sud ({minutes_window} dernières min)")
+        st.markdown(f"#### Aurores australes ({minutes_window} dernières min)")
         st.markdown(" ")
         st.markdown(" ")
 
@@ -1712,7 +1712,7 @@ with tab6:
 
     # Ouvrir la page produit NOAA
     st.link_button(
-        "🔗 Ouvrir la page produit NOAA",
+        " Ouvrir la page produit NOAA",
         "https://www.swpc.noaa.gov/products/aurora-30-minute-forecast",
         use_container_width=True
     )
