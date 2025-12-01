@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.9.5)  29 NOV 2025 15:39
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.9.5)  1 DEC 2025 10:31
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -560,37 +560,37 @@ Package: colortbl 2022/06/20 v1.0f Color table columns (DPC)
 \minrowclearance=\skip171
 \rownum=\count308
 )
-Package hyperref Info: Option `colorlinks' set `true' on input line 53.
+Package hyperref Info: Option `colorlinks' set `true' on input line 54.
 
 (./Journal_de_Bord_AurorAlerte.aux)
 \openout1 = `Journal_de_Bord_AurorAlerte.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Info: Redefining \degres on input line 104.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Info: Redefining \degres on input line 105.
 Package french.ldf Info: Setting StandardItemizeEnv=true for
 (french.ldf)             compatibility with enumitem package,
-(french.ldf)             reported on input line 104.
+(french.ldf)             reported on input line 105.
 Package french.ldf Info: Setting StandardEnumerateEnv=true for
 (french.ldf)             compatibility with enumitem package,
-(french.ldf)             reported on input line 104.
-LaTeX Info: Redefining \up on input line 104.
+(french.ldf)             reported on input line 105.
+LaTeX Info: Redefining \up on input line 105.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -648,25 +648,25 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-Package hyperref Info: Link coloring ON on input line 104.
+Package hyperref Info: Link coloring ON on input line 105.
 
 (./Journal_de_Bord_AurorAlerte.out) (./Journal_de_Bord_AurorAlerte.out)
 \@outlinefile=\write3
 \openout3 = `Journal_de_Bord_AurorAlerte.out'.
 
-LaTeX Info: Redefining \microtypecontext on input line 104.
-Package microtype Info: Applying patch `item' on input line 104.
-Package microtype Info: Applying patch `toc' on input line 104.
-Package microtype Info: Applying patch `eqnum' on input line 104.
-Package microtype Info: Applying patch `footnote' on input line 104.
-Package microtype Info: Applying patch `verbatim' on input line 104.
+LaTeX Info: Redefining \microtypecontext on input line 105.
+Package microtype Info: Applying patch `item' on input line 105.
+Package microtype Info: Applying patch `toc' on input line 105.
+Package microtype Info: Applying patch `eqnum' on input line 105.
+Package microtype Info: Applying patch `footnote' on input line 105.
+Package microtype Info: Applying patch `verbatim' on input line 105.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `alltext-nott'.
-LaTeX Info: Redefining \showhyphens on input line 104.
+LaTeX Info: Redefining \showhyphens on input line 105.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
@@ -702,30 +702,31 @@ Chapitre 1.
 ]
 Chapitre 2.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 203.
+(Font)              <7> on input line 204.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 203.
+(Font)              <5> on input line 204.
 [4
 
-] [5
+{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
+ [5
 pdfTeX warning (ext4): destination with the same identifier (name{table.2.1}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.262         \item R
-                     epresentation : Losanges dores] [6]
-Package mdframed Info: Not enough space on this page on input line 368.
+l.265         \item T
+                     aille : 14 pixels uniformément] [6]
+Package mdframed Info: Not enough space on this page on input line 369.
  [7
 pdfTeX warning (ext4): destination with the same identifier (name{table.2.2}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.368 \end{warnbox}
+l.369 \end{warnbox}
                    ]
-Package mdframed Info: Not enough space on this page on input line 368.
+Package mdframed Info: Not enough space on this page on input line 369.
 
-Underfull \hbox (badness 7796) in paragraph at lines 439--440
-[]|\T1/cmr/m/n/10 (+20) "Excellente lo-ca-li-sa-tion ! Au-rores fre-
+Underfull \hbox (badness 7796) in paragraph at lines 440--441
+[]|\T1/cmr/m/n/10 (+20) "Excellente lo-ca-li-sa-tion ! Au-rores fr�-
  []
 
 [8
@@ -733,10 +734,10 @@ pdfTeX warning (ext4): destination with the same identifier (name{table.2.3}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.446 \end{table}
+l.447 \end{table}
                  ]
 LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 4
-79.
+80.
  (/usr/local/texlive/2023/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 2022/07/10 v2.5l Standard LaTeX font definitions
 )
@@ -749,39 +750,39 @@ pdfTeX warning (ext4): destination with the same identifier (name{table.2.4}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.487 \subsubsection{Solution Implementee}
-                                          ] [10] [11
+l.488 \subsubsection{Solution Implémentée}
+                                            ] [10] [11
 pdfTeX warning (ext4): destination with the same identifier (name{table.2.5}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.603 \end{warnbox}
+l.604 \end{warnbox}
                    ]
-Package mdframed Info: Not enough space on this page on input line 603.
+Package mdframed Info: Not enough space on this page on input line 604.
  [12
 pdfTeX warning (ext4): destination with the same identifier (name{table.2.6}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.670 
+l.671 
       
 pdfTeX warning (ext4): destination with the same identifier (name{table.2.7}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.670 
+l.671 
       ] [13
 pdfTeX warning (ext4): destination with the same identifier (name{table.2.8}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.696 \chapter
+l.695 \chapter
               {Technologies et APIs}
 pdfTeX warning (ext4): destination with the same identifier (name{table.2.9}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.696 \chapter
+l.695 \chapter
               {Technologies et APIs}]
 Chapitre 3.
 [14
@@ -791,8 +792,8 @@ pdfTeX warning (ext4): destination with the same identifier (name{table.3.1}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.727 \chapter
-              {Fonctionnalites Implementees}]
+l.726 \chapter
+              {Fonctionnalités Implémentées}]
 Chapitre 4.
 [15
 
@@ -805,8 +806,8 @@ pdfTeX warning (ext4): destination with the same identifier (name{table.5.1}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.767 \chapter
-              {Ameliorations Futures}]
+l.766 \chapter
+              {Améliorations Futures}]
 Chapitre 6.
 [17
 
@@ -823,7 +824,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{table.A.1}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.854 \chapter
+l.853 \chapter
               {Ressources et Liens}]
 Annexe B.
 [21
@@ -831,16 +832,16 @@ Annexe B.
 ] (./Journal_de_Bord_AurorAlerte.aux)
 Package rerunfilecheck Info: File `Journal_de_Bord_AurorAlerte.out' has not cha
 nged.
-(rerunfilecheck)             Checksum: 4D54B20DB6BA3009FC64FE992C427462;10146.
+(rerunfilecheck)             Checksum: 7A2ED5691131CB0DBEC5BFB8FB4D5E14;10287.
  ) 
 Here is how much of TeX's memory you used:
- 16013 strings out of 476025
- 260642 string characters out of 5790018
+ 16045 strings out of 476025
+ 261074 string characters out of 5790018
  1867388 words of memory out of 5000000
- 35960 multiletter control sequences out of 15000+600000
- 531969 words of font info for 137 fonts, out of 8000000 for 9000
+ 35969 multiletter control sequences out of 15000+600000
+ 533740 words of font info for 150 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,12n,77p,1024b,720s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,12n,77p,1024b,748s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb>
 </usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfbx1095.pfb></
 usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></us
@@ -853,10 +854,10 @@ xlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb></usr/local/texl
 ive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb></usr/local/texliv
 e/2023/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/
 2023/texmf-dist/fonts/type1/public/cm-super/sftt1095.pfb>
-Output written on Journal_de_Bord_AurorAlerte.pdf (22 pages, 308874 bytes).
+Output written on Journal_de_Bord_AurorAlerte.pdf (22 pages, 321492 bytes).
 PDF statistics:
- 508 PDF objects out of 1000 (max. 8388607)
- 455 compressed objects within 5 object streams
+ 521 PDF objects out of 1000 (max. 8388607)
+ 464 compressed objects within 5 object streams
  132 named destinations out of 1000 (max. 500000)
- 43921 words of extra memory for PDF output out of 51595 (max. 10000000)
+ 52113 words of extra memory for PDF output out of 61914 (max. 10000000)
 

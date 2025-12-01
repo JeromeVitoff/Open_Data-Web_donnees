@@ -22,6 +22,7 @@
 \usepackage{mdframed}
 \usepackage{microtype}
 \usepackage{colortbl}
+
 % ============================================
 % CONFIGURATION DE LA PAGE
 % ============================================
@@ -32,10 +33,10 @@
 % COULEURS PERSONNALISÉES
 % ============================================
 
-\definecolor{maingreen}{HTML}{2e8540}
-\definecolor{mainyellow}{HTML}{e3b505}
-\definecolor{lightgreen}{HTML}{f0f8f0}
-\definecolor{lightblue}{HTML}{e8f4f8}
+\definecolor{mainblue}{HTML}{2C5AA0}
+\definecolor{accentblue}{HTML}{4A90E2}
+\definecolor{lightgray}{HTML}{f5f5f5}
+\definecolor{verylightblue}{HTML}{E8F4F8}
 \definecolor{codegray}{HTML}{f5f5f5}
 \definecolor{darkgray}{HTML}{333333}
 
@@ -45,22 +46,22 @@
 
 \hypersetup{
     colorlinks=true,
-    linkcolor=maingreen,
-    urlcolor=maingreen,
-    citecolor=maingreen,
+    linkcolor=mainblue,
+    urlcolor=mainblue,
+    citecolor=mainblue,
     pdftitle={Journal de Bord - AurorAlerte},
-    pdfauthor={Jerome Vitoffodji et Alvin Ingabire}
+    pdfauthor={Jérôme Vitoffodji et Alvin Ingabire}
 }
 
 % ============================================
-% EN-TETES ET PIEDS DE PAGE
+% EN-TÊTES ET PIEDS DE PAGE
 % ============================================
 
 \pagestyle{fancy}
 \fancyhf{}
 \fancyhead[L]{\small Journal de Bord - AurorAlerte}
 \fancyhead[R]{\small Novembre 2025}
-\fancyfoot[L]{\small Master 2 Open Data et Web des Donnees}
+\fancyfoot[L]{\small Master 2 Open Data et Web des Données}
 \fancyfoot[R]{\small Page \thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 \renewcommand{\footrulewidth}{0.4pt}
@@ -76,29 +77,29 @@
 % ============================================
 
 \titleformat{\chapter}[display]
-  {\normalfont\huge\bfseries\color{maingreen}}
+  {\normalfont\huge\bfseries\color{mainblue}}
   {\chaptertitlename\ \thechapter}{20pt}{\Huge}
 
 \titleformat{\section}
-  {\normalfont\Large\bfseries\color{maingreen}}
+  {\normalfont\Large\bfseries\color{mainblue}}
   {\thesection}{1em}{}
 
 \titleformat{\subsection}
-  {\normalfont\large\bfseries\color{mainyellow}}
+  {\normalfont\large\bfseries\color{accentblue}}
   {\thesubsection}{1em}{}
 
 % ============================================
-% BOITES PERSONNALISEES
+% BOÎTES PERSONNALISÉES
 % ============================================
 
-\newmdenv[backgroundcolor=lightblue,linecolor=maingreen,linewidth=2pt,
+\newmdenv[backgroundcolor=verylightblue,linecolor=mainblue,linewidth=2pt,
           roundcorner=5pt,innertopmargin=10pt,innerbottommargin=10pt]{infobox}
 
-\newmdenv[backgroundcolor=yellow!10,linecolor=mainyellow,linewidth=2pt,
+\newmdenv[backgroundcolor=lightgray,linecolor=accentblue,linewidth=2pt,
           roundcorner=5pt,innertopmargin=10pt,innerbottommargin=10pt]{warnbox}
 
 % ============================================
-% DEBUT DU DOCUMENT
+% DÉBUT DU DOCUMENT
 % ============================================
 
 \begin{document}
@@ -110,19 +111,19 @@
 \begin{titlepage}
     \centering
     \vspace*{2cm}
-    {\Huge\bfseries\color{maingreen} JOURNAL DE BORD\par}
+    {\Huge\bfseries\color{mainblue} JOURNAL DE BORD\par}
     \vspace{0.5cm}
     {\LARGE\bfseries Projet AurorAlerte\par}
     \vspace{1cm}
     {\Large\textbf{Dashboard Interactif de Surveillance}\par}
-    {\Large\textbf{des Aurores Boreales}\par}
+    {\Large\textbf{des Aurores Boréales}\par}
     \vspace{1.5cm}
-    {\large Master 2 Open Data et Web des Donnees\par}
-    {\large Universite de Montpellier Paul Valéry |Master 2 MIASHS |Novembre 2025\par}
+    {\large Master 2 Open Data et Web des Données\par}
+    {\large Université de Montpellier Paul Valéry | Master 2 MIASHS | Novembre 2025\par}
     \vspace{2cm}
-    {\Large\textbf{Realise par :}\par}
+    {\Large\textbf{Réalisé par :}\par}
     \vspace{0.5cm}
-    {\large Adjimon Jerome Vitoffodji\par}
+    {\large Adjimon Jérôme Vitoffodji\par}
     {\large Alvin Ingabire\par}
     
 \end{titlepage}
@@ -136,519 +137,519 @@
 
 \chapter{Contexte et Objectifs du Projet}
 
-\section{Contexte Academique}
+\section{Contexte Académique}
 
-Ce projet s'inscrit dans le cadre du Master 2 \textbf{Open Data et Web des Données} a l'université de Montpellier Paul valéry, formation Master 2 MIASHS. L'objectif était de créer une application web interactive exploitant des données en temps réel provenant d'APIs publiques, en mettant l'accent sur la visualisation de données scientifiques et météorologiques.
+Ce projet s'inscrit dans le cadre du Master 2 \textbf{Open Data et Web des Données} à l'université de Montpellier Paul Valéry, formation Master 2 MIASHS. L'objectif était de créer une application web interactive exploitant des données en temps réel provenant d'APIs publiques, en mettant l'accent sur la visualisation de données scientifiques et météorologiques.
 
 \section{Inspiration et Choix du Sujet}
 
-Le projet est inspiré du dashboard "Aurora Monitor" de \textbf{Sheila Gea}.
+Le projet est inspiré du dashboard "Aurora Monitor" de \textbf{Sheila Géa}.
 
 \section{Objectifs du Projet}
 
 \begin{itemize}[leftmargin=*, itemsep=5pt]
-    \item Creer un dashboard interactif de surveillance des aurores boreales en temps reel
-    \item Integrer multiple APIs publiques (NOAA, Open-Meteo, OpenWeatherMap, Sunrise-Sunset)
-    \item Traduire l'application en francais avec adaptation culturelle complete
-    \item Ajouter des fonctionnalites pedagogiques (descriptions, explications scientifiques)
-    \item Implementer un systeme d'alertes par email intelligent et automatise
-    \item Creer une carte mondiale interactive des probabilites d'observation
-    \item Documenter professionnellement le projet pour presentation academique
+    \item Créer un dashboard interactif de surveillance des aurores boréales en temps réel
+    \item Intégrer multiple APIs publiques (NOAA, Open-Meteo, OpenWeatherMap, Sunrise-Sunset)
+    \item Traduire l'application en français avec adaptation culturelle complète
+    \item Ajouter des fonctionnalités pédagogiques (descriptions, explications scientifiques)
+    \item Implémenter un système d'alertes par email intelligent et automatisé
+    \item Créer une carte mondiale interactive des probabilités d'observation
+    \item Documenter professionnellement le projet pour présentation académique
 \end{itemize}
 
 % ============================================
 % CHAPITRE 2 : SESSION DU 29 NOVEMBRE 2025
 % ============================================
 
-\chapter{Session de Developpement du 29 Novembre 2025}
+\chapter{Session de Développement du 29 Novembre 2025}
 
 \section{Vue d'Ensemble de la Session}
 
-Cette session intensive de developpement a dure environ 6 heures et a permis d'implementer plusieurs ameliorations majeures au dashboard AurorAlerte. Les travaux ont porte sur trois axes principaux :
+Cette session intensive de développement a duré environ 6 heures et a permis d'implémenter plusieurs améliorations majeures au dashboard AurorAlerte. Les travaux ont porté sur trois axes principaux :
 
 \begin{enumerate}[leftmargin=*, itemsep=5pt]
-    \item \textbf{Carte mondiale interactive} : Resolution de problemes d'affichage et ajout d'un systeme de recherche de villes dynamique
-    \item \textbf{Systeme d'alertes automatise} : Implementation d'un calcul automatique du seuil Kp selon la localisation de l'utilisateur
-    \item \textbf{Amelioration des emails} : Enrichissement du contenu des alertes avec informations contextuelles
+    \item \textbf{Carte mondiale interactive} : Résolution de problèmes d'affichage et ajout d'un système de recherche de villes dynamique
+    \item \textbf{Système d'alertes automatisé} : Implémentation d'un calcul automatique du seuil Kp selon la localisation de l'utilisateur
+    \item \textbf{Amélioration des emails} : Enrichissement du contenu des alertes avec informations contextuelles
 \end{enumerate}
 
-\section{Probleme 1 : Optimisation de la Carte Mondiale}
+\section{Problème 1 : Optimisation de la Carte Mondiale}
 
-\subsection{Symptomes Observes}
+\subsection{Symptômes Observés}
 
-La carte mondiale des aurores boreales s'affichait de maniere compressee avec beaucoup d'espace blanc inutilise. Plusieurs tentatives d'augmentation de la hauteur n'avaient aucun effet visible sur l'affichage final.
+La carte mondiale des aurores boréales s'affichait de manière compressée avec beaucoup d'espace blanc inutilisé. Plusieurs tentatives d'augmentation de la hauteur n'avaient aucun effet visible sur l'affichage final.
 
 \begin{warnbox}
-\textbf{Observation :} La carte apparaissait aplatie horizontalement avec une grande zone blanche en bas, rendant difficile la lecture des informations geographiques et des limites de visibilite des aurores.
+\textbf{Observation :} La carte apparaissait aplatie horizontalement avec une grande zone blanche en bas, rendant difficile la lecture des informations géographiques et des limites de visibilité des aurores.
 \end{warnbox}
 
 \subsection{Diagnostic}
 
-Analyse approfondie des causes du probleme :
+Analyse approfondie des causes du problème :
 
 \begin{enumerate}[leftmargin=*]
-    \item \textbf{Projection inadaptee :} La projection cartographique "natural earth" coupait les bords du monde et ne convenait pas pour un focus sur l'hemisphere nord
-    \item \textbf{Hauteur insuffisante :} Les valeurs de 600-700 pixels ne permettaient pas un affichage optimal de la zone geographique pertinente
-    \item \textbf{Plage de latitude excessive :} La plage 40-90 degrees N incluait des zones inutiles pour l'observation des aurores (Afrique du Nord, Amerique du Sud)
-    \item \textbf{Absence de focus geographique :} L'affichage global du monde ne permettait pas de se concentrer efficacement sur l'hemisphere nord ou les aurores sont observables
+    \item \textbf{Projection inadaptée :} La projection cartographique "natural earth" coupait les bords du monde et ne convenait pas pour un focus sur l'hémisphère nord
+    \item \textbf{Hauteur insuffisante :} Les valeurs de 600-700 pixels ne permettaient pas un affichage optimal de la zone géographique pertinente
+    \item \textbf{Plage de latitude excessive :} La plage 40-90°N incluait des zones inutiles pour l'observation des aurores (Afrique du Nord, Amérique du Sud)
+    \item \textbf{Absence de focus géographique :} L'affichage global du monde ne permettait pas de se concentrer efficacement sur l'hémisphère nord où les aurores sont observables
 \end{enumerate}
 
-\subsection{Solutions Explorees}
+\subsection{Solutions Explorées}
 
-Trois approches progressives ont ete testees pour resoudre le probleme :
+Trois approches progressives ont été testées pour résoudre le problème :
 
 \begin{table}[H]
 \centering
 \small
 \begin{tabular}{lcp{7cm}}
 \toprule
-\rowcolor{maingreen!80}
-\textcolor{white}{\textbf{Version}} & \textcolor{white}{\textbf{Hauteur}} & \textcolor{white}{\textbf{Caracteristiques}} \\
+\rowcolor{mainblue!80}
+\textcolor{white}{\textbf{Version}} & \textcolor{white}{\textbf{Hauteur}} & \textcolor{white}{\textbf{Caractéristiques}} \\
 \midrule
-Version 1 & 900px & Augmentation de la hauteur, plage latitude 30-90 degrees N \\
-Version 2 & 1200px & Taille extra large, plage latitude 25-90 degrees N \\
-Version 3 (finale) & 800px & Focus hemisphere nord 40-85 degrees N, projection Mercator, zoom automatique 1.5x \\
+Version 1 & 900px & Augmentation de la hauteur, plage latitude 30-90°N \\
+Version 2 & 1200px & Taille extra large, plage latitude 25-90°N \\
+Version 3 (finale) & 800px & Focus hémisphère nord 40-85°N, projection Mercator, zoom automatique 1.5x \\
 \bottomrule
 \end{tabular}
-\caption{Versions testees de la carte mondiale}
+\caption{Versions testées de la carte mondiale}
 \end{table}
 
 \subsection{Solution Finale Retenue}
 
-La version finale utilise une combinaison optimale de parametres :
+La version finale utilise une combinaison optimale de paramètres :
 
 \begin{itemize}[leftmargin=*]
-    \item \textbf{Projection Mercator} : Meilleure lisibilite pour l'hemisphere nord que la projection equirectangular
-    \item \textbf{Focus 40-85 degrees N} : Exclusion des zones non pertinentes (hemisphere sud, tropiques)
-    \item \textbf{Hauteur 800px} : Compromis optimal entre lisibilite et espace ecran
-    \item \textbf{Zoom 1.5x} : Agrandissement automatique de la zone d'interet
-    \item \textbf{Centrage lat=60 degrees, lon=0 degrees} : Position optimale pour l'Europe du Nord et l'Arctique
+    \item \textbf{Projection Mercator} : Meilleure lisibilité pour l'hémisphère nord que la projection equirectangular
+    \item \textbf{Focus 40-85°N} : Exclusion des zones non pertinentes (hémisphère sud, tropiques)
+    \item \textbf{Hauteur 800px} : Compromis optimal entre lisibilité et espace écran
+    \item \textbf{Zoom 1.5x} : Agrandissement automatique de la zone d'intérêt
+    \item \textbf{Centrage lat=60°, lon=0°} : Position optimale pour l'Europe du Nord et l'Arctique
 \end{itemize}
 
-\subsection{Resultats et Ameliorations}
+\subsection{Résultats et Améliorations}
 
 \begin{infobox}
-\textbf{Ameliorations Obtenues :}
+\textbf{Améliorations Obtenues :}
 
 \begin{itemize}[leftmargin=*]
-    \item La carte remplit 100 % de la hauteur disponible sans espace blanc inutilise
-    \item Affichage exclusif des zones pertinentes : Europe du Nord, Amerique du Nord, Groenland, Arctique
-    \item Suppression des zones non pertinentes : Afrique, Amerique du Sud, Antarctique, Ocean Indien
-    \item Bandes de latitude plus denses (tous les 1 degrees au lieu de 5 degrees) pour une meilleure precision visuelle
-    \item Amelioration significative de la lisibilite des villes et des limites de visibilite des aurores
+    \item La carte remplit 100\% de la hauteur disponible sans espace blanc inutilisé
+    \item Affichage exclusif des zones pertinentes : Europe du Nord, Amérique du Nord, Groenland, Arctique
+    \item Suppression des zones non pertinentes : Afrique, Amérique du Sud, Antarctique, Océan Indien
+    \item Bandes de latitude plus denses (tous les 1° au lieu de 5°) pour une meilleure précision visuelle
+    \item Amélioration significative de la lisibilité des villes et des limites de visibilité des aurores
 \end{itemize}
 \end{infobox}
 
-\section{Amelioration 2 : Systeme de Recherche de Villes Dynamique}
+\section{Amélioration 2 : Système de Recherche de Villes Dynamique}
 
-\subsection{Besoin Identifie}
+\subsection{Besoin Identifié}
 
-Le dashboard affichait initialement 9 villes principales pre-configurees (Longyearbyen, Tromso, Reykjavik, Stockholm, Oslo, Edimbourg, Londres, Paris, Berlin). Les utilisateurs souhaitaient pouvoir ajouter leurs propres localisations d'interet sans avoir a modifier le code source de l'application.
+Le dashboard affichait initialement 9 villes principales pré-configurées (Longyearbyen, Tromsø, Reykjavik, Stockholm, Oslo, Édimbourg, Londres, Paris, Berlin). Les utilisateurs souhaitaient pouvoir ajouter leurs propres localisations d'intérêt sans avoir à modifier le code source de l'application.
 
-\subsection{Architecture Implementee}
+\subsection{Architecture Implémentée}
 
-Mise en place d'un systeme a deux niveaux de villes :
+Mise en place d'un système à deux niveaux de villes :
 
 \begin{enumerate}[leftmargin=*]
-    \item \textbf{Villes principales (9 villes fixes)} : Toujours affiches automatiquement
+    \item \textbf{Villes principales (9 villes fixes)} : Toujours affichées automatiquement
     \begin{itemize}
-        \item Representation : Cercles noirs
+        \item Représentation : Cercles noirs
         \item Couleur dynamique : Vert si aurores visibles, Rouge si invisibles
         \item Taille : 16 pixels si visible, 12 pixels si invisible
     \end{itemize}
     
-    \item \textbf{Villes personnalisees (maximum 5)} : Ajoutees par recherche utilisateur
+    \item \textbf{Villes personnalisées (maximum 5)} : Ajoutées par recherche utilisateur
     \begin{itemize}
-        \item Representation : Losanges dores
+        \item Représentation : Losanges dorés
         \item Couleur dynamique : Jaune si aurores visibles, Orange si invisibles
-        \item Taille : 14 pixels uniformement
+        \item Taille : 14 pixels uniformément
     \end{itemize}
 \end{enumerate}
 
-\subsection{Fonctionnalites Cles}
+\subsection{Fonctionnalités Clés}
 
-\subsubsection{Geocodage Intelligent}
+\subsubsection{Géocodage Intelligent}
 
-Le systeme utilise l'API de geocodage Open-Meteo pour convertir automatiquement les noms de villes entres par l'utilisateur en coordonnees geographiques precises (latitude, longitude). Cette approche permet :
+Le système utilise l'API de géocodage Open-Meteo pour convertir automatiquement les noms de villes entrés par l'utilisateur en coordonnées géographiques précises (latitude, longitude). Cette approche permet :
 
 \begin{itemize}[leftmargin=*]
     \item Support de noms de villes en plusieurs langues
-    \item Resolution automatique des ambiguites geographiques
+    \item Résolution automatique des ambiguïtés géographiques
     \item Gestion des variantes orthographiques
-    \item Recuperation des coordonnees exactes pour positionnement precis sur la carte
+    \item Récupération des coordonnées exactes pour positionnement précis sur la carte
 \end{itemize}
 
-\subsubsection{Detection Intelligente des Doublons}
+\subsubsection{Détection Intelligente des Doublons}
 
-Systeme sophistique de detection des doublons utilisant deux methodes complementaires :
+Système sophistiqué de détection des doublons utilisant deux méthodes complémentaires :
 
 \begin{enumerate}[leftmargin=*]
-    \item \textbf{Verification par nom} : Comparaison insensible a la casse des noms de villes pour detecter les entrees identiques
-    \item \textbf{Verification par proximite geographique} : Detection de villes situees a moins de 0.5 degrees de distance (environ 55 km), ce qui permet d'eviter l'affichage multiple de villes tres proches (exemple : Paris et sa banlieue proche)
+    \item \textbf{Vérification par nom} : Comparaison insensible à la casse des noms de villes pour détecter les entrées identiques
+    \item \textbf{Vérification par proximité géographique} : Détection de villes situées à moins de 0.5° de distance (environ 55 km), ce qui permet d'éviter l'affichage multiple de villes très proches (exemple : Paris et sa banlieue proche)
 \end{enumerate}
 
-Cette double verification garantit qu'aucune ville n'apparait deux fois sur la carte, ameliorant la clarte de la visualisation.
+Cette double vérification garantit qu'aucune ville n'apparaît deux fois sur la carte, améliorant la clarté de la visualisation.
 
 \subsubsection{Messages de Feedback Utilisateur}
 
-Systeme complet et contextuel de retour d'information a l'utilisateur :
+Système complet et contextuel de retour d'information à l'utilisateur :
 
 \begin{itemize}[leftmargin=*]
-    \item \textbf{Message de doublons} : "Ville(s) deja presente(s) : Stockholm, Paris. Veuillez saisir d'autres villes."
-    \item \textbf{Message de succes} : "3 ville(s) ajoutee(s) sur la carte !"
-    \item \textbf{Message mixte} : Affichage combine des deux types de messages si certaines villes sont ajoutees et d'autres rejetees
-    \item \textbf{Message d'echec} : "Aucune ville ajoutee. Verifiez les noms saisis." si aucune ville n'a pu etre geocodée
+    \item \textbf{Message de doublons} : "Ville(s) déjà présente(s) : Stockholm, Paris. Veuillez saisir d'autres villes."
+    \item \textbf{Message de succès} : "3 ville(s) ajoutée(s) sur la carte !"
+    \item \textbf{Message mixte} : Affichage combiné des deux types de messages si certaines villes sont ajoutées et d'autres rejetées
+    \item \textbf{Message d'échec} : "Aucune ville ajoutée. Vérifiez les noms saisis." si aucune ville n'a pu être géocodée
 \end{itemize}
 
 \subsection{Statistiques Enrichies}
 
-Ajout de quatre metriques calculees en temps reel sous la carte mondiale :
+Ajout de quatre métriques calculées en temps réel sous la carte mondiale :
 
 \begin{table}[H]
 \centering
 \small
 \begin{tabular}{lp{8cm}}
 \toprule
-\rowcolor{maingreen!80}
-\textcolor{white}{\textbf{Metrique}} & \textcolor{white}{\textbf{Description}} \\
+\rowcolor{mainblue!80}
+\textcolor{white}{\textbf{Métrique}} & \textcolor{white}{\textbf{Description}} \\
 \midrule
-Latitude Limite & Latitude minimale a partir de laquelle les aurores sont theoriquement visibles, calculee selon l'indice Kp actuel \\
-Distance a Limite & Distance en kilometres entre la localisation choisie par l'utilisateur et la limite de visibilite, avec indication de direction (dans la zone visible ou distance vers le nord) \\
+Latitude Limite & Latitude minimale à partir de laquelle les aurores sont théoriquement visibles, calculée selon l'indice Kp actuel \\
+Distance à Limite & Distance en kilomètres entre la localisation choisie par l'utilisateur et la limite de visibilité, avec indication de direction (dans la zone visible ou distance vers le nord) \\
 Aurores Ici & Indicateur binaire (OUI / NON) indiquant si les aurores sont actuellement visibles depuis la localisation choisie \\
-Villes Visibles & Nombre et pourcentage de villes affichees sur la carte depuis lesquelles les aurores sont actuellement visibles \\
+Villes Visibles & Nombre et pourcentage de villes affichées sur la carte depuis lesquelles les aurores sont actuellement visibles \\
 \bottomrule
 \end{tabular}
-\caption{Statistiques affichees sous la carte mondiale}
+\caption{Statistiques affichées sous la carte mondiale}
 \end{table}
 
-\subsection{Elements Pedagogiques Ajoutes}
+\subsection{Éléments Pédagogiques Ajoutés}
 
-\subsubsection{Legende Interactive}
+\subsubsection{Légende Interactive}
 
-Creation d'une legende visuelle composee de 5 cartes colorees avec degradés CSS (hauteur 130 pixels) :
+Création d'une légende visuelle composée de 5 cartes colorées avec dégradés CSS (hauteur 130 pixels) :
 
 \begin{itemize}[leftmargin=*]
-    \item Zone Verte : Region ou les aurores sont actuellement visibles
-    \item Ligne Doree : Limite de visibilite correspondant a l'indice Kp actuel
-    \item Zone Rouge : Region ou les aurores ne sont pas visibles actuellement
-    \item Villes Principales : Representation des 9 villes pre-configurees (cercles)
-    \item Villes Personnalisees : Representation des villes ajoutees par l'utilisateur (losanges)
+    \item Zone Verte : Région où les aurores sont actuellement visibles
+    \item Ligne Dorée : Limite de visibilité correspondant à l'indice Kp actuel
+    \item Zone Rouge : Région où les aurores ne sont pas visibles actuellement
+    \item Villes Principales : Représentation des 9 villes pré-configurées (cercles)
+    \item Villes Personnalisées : Représentation des villes ajoutées par l'utilisateur (losanges)
 \end{itemize}
 
 \subsubsection{Tableau d'Interprétation Kp}
 
-Tableau pedagogique de 10 lignes (Kp 0 a 9) avec mise en forme conditionnelle dynamique :
+Tableau pédagogique de 10 lignes (Kp 0 à 9) avec mise en forme conditionnelle dynamique :
 
 \begin{itemize}[leftmargin=*]
-    \item \textbf{Ligne actuelle} (Kp en cours) : Surlignee en gradient vert pour identification immediate
-    \item \textbf{Lignes passees} (Kp inferieur a l'actuel) : Fond vert clair indiquant des conditions deja atteintes
-    \item \textbf{Lignes futures} (Kp superieur a l'actuel) : Fond rouge clair indiquant des conditions necessitant plus d'activite geomagnetique
+    \item \textbf{Ligne actuelle} (Kp en cours) : Surlignée en gradient vert pour identification immédiate
+    \item \textbf{Lignes passées} (Kp inférieur à l'actuel) : Fond vert clair indiquant des conditions déjà atteintes
+    \item \textbf{Lignes futures} (Kp supérieur à l'actuel) : Fond rouge clair indiquant des conditions nécessitant plus d'activité géomagnétique
 \end{itemize}
 
-Colonnes du tableau : Indice Kp, Latitude limite, Regions geographiques visibles, Frequence d'observation
+Colonnes du tableau : Indice Kp, Latitude limite, Régions géographiques visibles, Fréquence d'observation
 
-\section{Amelioration 3 : Systeme d'Alertes Email Automatise}
+\section{Amélioration 3 : Système d'Alertes Email Automatisé}
 
-\subsection{Problematique Initiale}
+\subsection{Problématique Initiale}
 
-Dans la version precedente du systeme d'alertes, l'utilisateur devait accomplir manuellement trois etapes :
+Dans la version précédente du système d'alertes, l'utilisateur devait accomplir manuellement trois étapes :
 
 \begin{enumerate}[leftmargin=*]
     \item Entrer son adresse email
-    \item Choisir manuellement un seuil Kp sur une echelle de 0 a 9
-    \item Deviner empiriquement quel indice Kp correspondait a sa ville
+    \item Choisir manuellement un seuil Kp sur une échelle de 0 à 9
+    \item Deviner empiriquement quel indice Kp correspondait à sa ville
 \end{enumerate}
 
 \begin{warnbox}
-\textbf{Probleme d'Experience Utilisateur Identifie :}
+\textbf{Problème d'Expérience Utilisateur Identifié :}
 
-L'utilisateur moyen ne possede pas les connaissances scientifiques necessaires pour determiner quel seuil Kp choisir pour sa localisation geographique. Cette situation creait une confusion : "Est-ce que Kp 5.0 est approprie pour Stockholm ? Pour Paris ? Pour Tromso ?"
+L'utilisateur moyen ne possède pas les connaissances scientifiques nécessaires pour déterminer quel seuil Kp choisir pour sa localisation géographique. Cette situation créait une confusion : "Est-ce que Kp 5.0 est approprié pour Stockholm ? Pour Paris ? Pour Tromsø ?"
 
-Cette ambiguite rendait le systeme d'alertes difficile a configurer correctement et peu intuitif, limitant son adoption et son efficacite.
+Cette ambiguïté rendait le système d'alertes difficile à configurer correctement et peu intuitif, limitant son adoption et son efficacité.
 \end{warnbox}
 
 \subsection{Solution : Calcul Automatique du Seuil Kp}
 
 \subsubsection{Principe Fondamental}
 
-Developpement d'un algorithme qui calcule automatiquement l'indice Kp minimum necessaire pour observer les aurores boreales a une latitude geographique donnee. Cette approche elimine completement le besoin pour l'utilisateur de comprendre la relation entre indice Kp et latitude d'observation.
+Développement d'un algorithme qui calcule automatiquement l'indice Kp minimum nécessaire pour observer les aurores boréales à une latitude géographique donnée. Cette approche élimine complètement le besoin pour l'utilisateur de comprendre la relation entre indice Kp et latitude d'observation.
 
 \subsubsection{Table de Correspondance Scientifique}
 
-Utilisation d'une table de correspondance basee sur les modeles scientifiques de geomagnetisme :
+Utilisation d'une table de correspondance basée sur les modèles scientifiques de géomagnétisme :
 
 \begin{table}[H]
 \centering
 \small
 \begin{tabular}{ccc}
 \toprule
-\rowcolor{maingreen!80}
-\textcolor{white}{\textbf{Indice Kp}} & \textcolor{white}{\textbf{Latitude (degrees N)}} & \textcolor{white}{\textbf{Exemples de Villes}} \\
+\rowcolor{mainblue!80}
+\textcolor{white}{\textbf{Indice Kp}} & \textcolor{white}{\textbf{Latitude (°N)}} & \textcolor{white}{\textbf{Exemples de Villes}} \\
 \midrule
 0 & 66.5 & Cercle arctique \\
 1 & 64.5 & Nord de l'Islande \\
 2 & 62.4 & Laponie \\
 3 & 60.4 & Rovaniemi (Finlande) \\
 4 & 58.3 & Stockholm, Helsinki \\
-5 & 56.3 & Ecosse \\
+5 & 56.3 & Écosse \\
 6 & 54.2 & Nord de l'Angleterre, Danemark \\
 7 & 52.2 & Londres, Amsterdam \\
 8 & 50.1 & Bruxelles, Nord de la France \\
 9 & 48.1 & Paris, Munich \\
 \bottomrule
 \end{tabular}
-\caption{Correspondance Kp -- Latitude minimale}
+\caption{Correspondance KpLatitude minimale}
 \end{table}
 
 \subsubsection{Exemples de Calcul Automatique}
 
-Le systeme calcule automatiquement le seuil optimal selon la ville choisie :
+Le système calcule automatiquement le seuil optimal selon la ville choisie :
 
 \begin{itemize}[leftmargin=*]
-    \item \textbf{Stockholm} (59.33 degrees N) -- Kp minimum calcule : 4
-    \item \textbf{Tromso} (69.65 degrees N) -- Kp minimum calcule : 1
-    \item \textbf{Paris} (48.85 degrees N) -- Kp minimum calcule : 9
-    \item \textbf{Londres} (51.51 degrees N) -- Kp minimum calcule : 8
+    \item \textbf{Stockholm} (59.33°N) → Kp minimum calculé : 4
+    \item \textbf{Tromsø} (69.65°N) → Kp minimum calculé : 1
+    \item \textbf{Paris} (48.85°N) → Kp minimum calculé : 9
+    \item \textbf{Londres} (51.51°N) → Kp minimum calculé : 8
 \end{itemize}
 
-\subsection{Nouvelle Interface Utilisateur Simplifiee}
+\subsection{Nouvelle Interface Utilisateur Simplifiée}
 
-\subsubsection{Workflow Optimise}
+\subsubsection{Workflow Optimisé}
 
-Le processus de configuration des alertes est desormais reduit a 4 etapes simples :
+Le processus de configuration des alertes est désormais réduit à 4 étapes simples :
 
 \begin{enumerate}[leftmargin=*]
-    \item L'utilisateur selectionne sa ville dans l'interface (exemple : Stockholm)
-    \item Le systeme calcule automatiquement et silencieusement : Kp minimum = 4
+    \item L'utilisateur sélectionne sa ville dans l'interface (exemple : Stockholm)
+    \item Le système calcule automatiquement et silencieusement : Kp minimum = 4
     \item L'utilisateur entre son adresse email et valide
-    \item Le systeme affiche un message contextuel : "Bonne localisation ! Aurores regulieres (Kp >= 4)"
+    \item Le système affiche un message contextuel : "Bonne localisation ! Aurores régulières (Kp >= 4)"
 \end{enumerate}
 
 \subsubsection{Messages Contextuels Intelligents}
 
-Le systeme genere des messages personnalises en fonction du Kp minimum calcule, offrant une evaluation qualitative de la localisation pour l'observation des aurores :
+Le système génère des messages personnalisés en fonction du Kp minimum calculé, offrant une évaluation qualitative de la localisation pour l'observation des aurores :
 
 \begin{table}[H]
 \centering
 \small
 \begin{tabular}{ccp{6.5cm}}
 \toprule
-\rowcolor{maingreen!80}
-\textcolor{white}{\textbf{Kp Min}} & \textcolor{white}{\textbf{Type Message}} & \textcolor{white}{\textbf{Message Affiche}} \\
+\rowcolor{mainblue!80}
+\textcolor{white}{\textbf{Kp Min}} & \textcolor{white}{\textbf{Type Message}} & \textcolor{white}{\textbf{Message Affiché}} \\
 \midrule
-0-2 & Succes (vert) & "Excellente localisation ! Aurores frequentes. Vous en verrez souvent !" \\
-3-5 & Info (bleu) & "Bonne localisation ! Les aurores sont regulierement visibles ici." \\
-6-7 & Avertissement (jaune) & "Aurores rares ici. Tempetes geomagnetiques necessaires. Profitez de cette occasion !" \\
-8-9 & Erreur (rouge) & "Aurores tres rares. Evenements geomagnetiques extremes requis. Conseil : Voyagez plus au nord !" \\
+0-2 & Succès (vert) & "Excellente localisation ! Aurores fréquentes. Vous en verrez souvent !" \\
+3-5 & Info (bleu) & "Bonne localisation ! Les aurores sont régulièrement visibles ici." \\
+6-7 & Avertissement (jaune) & "Aurores rares ici. Tempêtes géomagnétiques nécessaires. Profitez de cette occasion !" \\
+8-9 & Erreur (rouge) & "Aurores très rares. Événements géomagnétiques extrêmes requis. Conseil : Voyagez plus au nord !" \\
 \bottomrule
 \end{tabular}
-\caption{Messages personnalises selon le Kp minimum}
+\caption{Messages personnalisés selon le Kp minimum}
 \end{table}
 
-\subsubsection{Parametres Avances pour Utilisateurs Experimentes}
+\subsubsection{Paramètres Avancés pour Utilisateurs Expérimentés}
 
-Un panneau extensible "Parametres Avances" permet aux utilisateurs experimentes de :
+Un panneau extensible "Paramètres Avancés" permet aux utilisateurs expérimentés de :
 
 \begin{itemize}[leftmargin=*]
-    \item Activer la personnalisation manuelle du seuil Kp (desactivee par defaut)
-    \item Modifier l'intervalle minimum entre deux alertes (0.5 a 6 heures, defaut 1 heure)
-    \item Visualiser le calcul automatique pour comprendre le raisonnement du systeme
+    \item Activer la personnalisation manuelle du seuil Kp (désactivée par défaut)
+    \item Modifier l'intervalle minimum entre deux alertes (0.5 à 6 heures, défaut 1 heure)
+    \item Visualiser le calcul automatique pour comprendre le raisonnement du système
 \end{itemize}
 
-Par defaut, ce panneau reste cache et le mode automatique intelligent est utilise, simplifiant l'experience pour 95 % des utilisateurs.
+Par défaut, ce panneau reste caché et le mode automatique intelligent est utilisé, simplifiant l'expérience pour 95\% des utilisateurs.
 
-\subsection{Avantages de l'Approche Automatisee}
+\subsection{Avantages de l'Approche Automatisée}
 
 \begin{infobox}
-\textbf{Ameliorations Significatives de l'Experience Utilisateur :}
+\textbf{Améliorations Significatives de l'Expérience Utilisateur :}
 
 \begin{itemize}[leftmargin=*]
-    \item Simplicite accrue : Elimination de la configuration manuelle du seuil Kp technique
-    \item Coherence logique : Alignement avec le reste du dashboard ou la localisation est centrale
-    \item Intelligence contextuelle : Calcul automatique precis base sur des donnees scientifiques
-    \item Fiabilite maximale : Impossibilite de mal configurer le systeme
-    \item Valeur pedagogique : L'utilisateur comprend pourquoi ce seuil specifique est approprie
-    \item Professionnalisme : L'application s'adapte a l'utilisateur, pas l'inverse
+    \item Simplicité accrue : Élimination de la configuration manuelle du seuil Kp technique
+    \item Cohérence logique : Alignement avec le reste du dashboard où la localisation est centrale
+    \item Intelligence contextuelle : Calcul automatique précis basé sur des données scientifiques
+    \item Fiabilité maximale : Impossibilité de mal configurer le système
+    \item Valeur pédagogique : L'utilisateur comprend pourquoi ce seuil spécifique est approprié
+    \item Professionnalisme : L'application s'adapte à l'utilisateur, pas l'inverse
 \end{itemize}
 \end{infobox}
 
 \subsection{Correction d'un Bug Architectural Critique}
 
-\subsubsection{Erreur Detectee}
+\subsubsection{Erreur Détectée}
 
-Une erreur systeme apparaissait lors du chargement de l'application : \texttt{NameError: name 'kp\_zones' is not defined}
+Une erreur système apparaissait lors du chargement de l'application : \texttt{NameError: name 'kp\_zones' is not defined}
 
 \subsubsection{Analyse de la Cause}
 
-Investigation revelant que la variable globale \texttt{kp\_zones} etait definie a l'interieur d'un bloc conditionnel specifique (onglet "Carte mondiale") mais utilisee dans une section executee avant (systeme d'alertes).
+Investigation révélant que la variable globale \texttt{kp\_zones} était définie à l'intérieur d'un bloc conditionnel spécifique (onglet "Carte mondiale") mais utilisée dans une section exécutée avant (système d'alertes).
 
-\textbf{Principe d'architecture viole :} En Python/Streamlit, toute variable utilisee dans plusieurs endroits du code doit etre definie GLOBALEMENT au debut de l'application, avant toute logique conditionnelle ou de navigation par onglets.
+\textbf{Principe d'architecture violé :} En Python/Streamlit, toute variable utilisée dans plusieurs endroits du code doit être définie GLOBALEMENT au début de l'application, avant toute logique conditionnelle ou de navigation par onglets.
 
-\subsubsection{Solution Implementee}
+\subsubsection{Solution Implémentée}
 
-Deplacement de la definition de \texttt{kp\_zones} vers le debut du fichier principal, immediatement apres la configuration de la page Streamlit, transformant ainsi cette table en constante globale accessible depuis n'importe quel point de l'application.
+Déplacement de la définition de \texttt{kp\_zones} vers le début du fichier principal, immédiatement après la configuration de la page Streamlit, transformant ainsi cette table en constante globale accessible depuis n'importe quel point de l'application.
 
-Cette correction a egalement ameliore la maintenabilite du code en clarifiant que cette table est une donnee scientifique fondamentale du projet, pas une configuration specifique a un onglet.
+Cette correction a également amélioré la maintenabilité du code en clarifiant que cette table est une donnée scientifique fondamentale du projet, pas une configuration spécifique à un onglet.
 
-\section{Amelioration 4 : Enrichissement des Emails d'Alerte}
+\section{Amélioration 4 : Enrichissement des Emails d'Alerte}
 
 \subsection{Modification de l'Architecture Email}
 
-Le systeme d'envoi d'email a ete enrichi pour inclure automatiquement le contexte de localisation de l'utilisateur, transformant une alerte generique en notification personnalisee et pedagogique.
+Le système d'envoi d'email a été enrichi pour inclure automatiquement le contexte de localisation de l'utilisateur, transformant une alerte générique en notification personnalisée et pédagogique.
 
-\subsection{Nouveau Contenu Email Personnalise}
+\subsection{Nouveau Contenu Email Personnalisé}
 
 \subsubsection{Section Informative Contextuelle}
 
-Ajout d'une section dediee dans chaque email expliquant le contexte geographique :
+Ajout d'une section dédiée dans chaque email expliquant le contexte géographique :
 
 \begin{itemize}[leftmargin=*]
-    \item \textbf{Pour localisations excellentes} (Kp min 0-2) : "Excellente nouvelle ! Votre localisation est ideale pour observer les aurores. Vous en verrez souvent !"
-    \item \textbf{Pour localisations bonnes} (Kp min 3-5) : "Bonne localisation ! Les aurores sont regulierement visibles ici."
-    \item \textbf{Pour localisations rares} (Kp min 6-7) : "Les aurores sont rares a cette latitude. Profitez de cette occasion exceptionnelle !"
-    \item \textbf{Pour localisations tres rares} (Kp min 8-9) : "Evenement exceptionnel ! Les aurores sont tres rares ici. Ne manquez pas ce spectacle unique !"
+    \item \textbf{Pour localisations excellentes} (Kp min 0-2) : "Excellente nouvelle ! Votre localisation est idéale pour observer les aurores. Vous en verrez souvent !"
+    \item \textbf{Pour localisations bonnes} (Kp min 3-5) : "Bonne localisation ! Les aurores sont régulièrement visibles ici."
+    \item \textbf{Pour localisations rares} (Kp min 6-7) : "Les aurores sont rares à cette latitude. Profitez de cette occasion exceptionnelle !"
+    \item \textbf{Pour localisations très rares} (Kp min 8-9) : "Événement exceptionnel ! Les aurores sont très rares ici. Ne manquez pas ce spectacle unique !"
 \end{itemize}
 
-\subsubsection{Nouvelles Metriques Affichees}
+\subsubsection{Nouvelles Métriques Affichées}
 
-L'email HTML enrichi presente desormais 5 metriques cles au lieu de 4 :
+L'email HTML enrichi présente désormais 5 métriques clés au lieu de 4 :
 
 \begin{enumerate}[leftmargin=*]
-    \item \textbf{Indice Kp Actuel} : Valeur en temps reel de l'activite geomagnetique (sur 9)
-    \item \textbf{Kp Minimum Requis} : Seuil calcule specifiquement pour cette localisation (NOUVEAU)
-    \item \textbf{Score de Probabilite} : Score composite prenant en compte Kp, meteo et obscurite (sur 1.0)
-    \item \textbf{Ciel Degage} : Pourcentage de ciel sans nuages
-    \item \textbf{Obscurite} : Indicateur nuit/jour avec icone appropriee
+    \item \textbf{Indice Kp Actuel} : Valeur en temps réel de l'activité géomagnétique (sur 9)
+    \item \textbf{Kp Minimum Requis} : Seuil calculé spécifiquement pour cette localisation (NOUVEAU)
+    \item \textbf{Score de Probabilité} : Score composite prenant en compte Kp, météo et obscurité (sur 1.0)
+    \item \textbf{Ciel Dégagé} : Pourcentage de ciel sans nuages
+    \item \textbf{Obscurité} : Indicateur nuit/jour avec icône appropriée
 \end{enumerate}
 
-\subsection{Structure de l'Email Ameliore}
+\subsection{Structure de l'Email Amélioré}
 
 \subsubsection{Format HTML Professionnel}
 
 L'email utilise un template HTML responsive avec :
 
 \begin{itemize}[leftmargin=*]
-    \item \textbf{En-tete dynamique} : Couleur de fond adaptee au score (vert pour excellent, jaune pour bon, rouge pour moyen)
-    \item \textbf{Section d'information contextuelle} : Fond jaune clair avec bordure pour attirer l'attention sur le message personnalise
-    \item \textbf{Metriques visuelles} : Presentation en grille des 5 indicateurs cles avec typo graphie hierarchisee
-    \item \textbf{Conseils d'observation} : Liste detaillee (meilleure periode, lieu ideal, direction, patience, conseils photo)
+    \item \textbf{En-tête dynamique} : Couleur de fond adaptée au score (vert pour excellent, jaune pour bon, rouge pour moyen)
+    \item \textbf{Section d'information contextuelle} : Fond jaune clair avec bordure pour attirer l'attention sur le message personnalisé
+    \item \textbf{Métriques visuelles} : Présentation en grille des 5 indicateurs clés avec typographie hiérarchisée
+    \item \textbf{Conseils d'observation} : Liste détaillée (meilleure période, lieu idéal, direction, patience, conseils photo)
     \item \textbf{Bouton d'action} : Lien cliquable vers le dashboard complet
-    \item \textbf{Footer informatif} : Timestamp UTC precis et informations sur l'origine de l'alerte
+    \item \textbf{Footer informatif} : Timestamp UTC précis et informations sur l'origine de l'alerte
 \end{itemize}
 
 \subsubsection{Version Texte Alternative}
 
-Pour garantir la compatibilite avec tous les clients email, chaque email inclut egalement une version texte brut contenant toutes les informations essentielles dans un format lisible sans HTML.
+Pour garantir la compatibilité avec tous les clients email, chaque email inclut également une version texte brut contenant toutes les informations essentielles dans un format lisible sans HTML.
 
-\section{Tests et Validation du Systeme d'Alertes}
+\section{Tests et Validation du Système d'Alertes}
 
-\subsection{Creation d'Outils de Test Dedies}
+\subsection{Création d'Outils de Test Dédiés}
 
-Pour faciliter les tests du systeme d'alertes email sans necessiter l'activation complete du dashboard, un script Python dedie a ete developpe : \texttt{test\_email.py}
+Pour faciliter les tests du système d'alertes email sans nécessiter l'activation complète du dashboard, un script Python dédié a été développé : \texttt{test\_email.py}
 
-\subsubsection{Fonctionnalites du Script de Test}
+\subsubsection{Fonctionnalités du Script de Test}
 
 \begin{itemize}[leftmargin=*]
     \item Chargement automatique de la configuration SMTP depuis le fichier de secrets
     \item Interface interactive en ligne de commande pour entrer l'email de test
     \item Validation automatique du format de l'adresse email
-    \item Envoi d'un email avec des donnees de test predefinies (Kp 6.5, Stockholm, score 0.82)
-    \item Affichage de messages de debug detailles pour faciliter le diagnostic
+    \item Envoi d'un email avec des données de test prédéfinies (Kp 6.5, Stockholm, score 0.82)
+    \item Affichage de messages de debug détaillés pour faciliter le diagnostic
     \item Fourniture automatique de solutions en cas d'erreur d'envoi
 \end{itemize}
 
-\subsection{Methodes de Test Documentees}
+\subsection{Méthodes de Test Documentées}
 
-Trois approches complementaires de test ont ete documentees :
+Trois approches complémentaires de test ont été documentées :
 
 \begin{table}[H]
 \centering
 \small
 \begin{tabular}{lp{8.5cm}}
 \toprule
-\rowcolor{maingreen!80}
-\textcolor{white}{\textbf{Methode}} & \textcolor{white}{\textbf{Description et Usage}} \\
+\rowcolor{mainblue!80}
+\textcolor{white}{\textbf{Méthode}} & \textcolor{white}{\textbf{Description et Usage}} \\
 \midrule
-Script test\_email.py & Script Python standalone avec interface interactive, ideal pour tests rapides et debugging \\
-Test depuis Dashboard & Modification temporaire du seuil Kp a 0.0 pour forcer l'envoi immediat d'une alerte de test \\
+Script test\_email.py & Script Python standalone avec interface interactive, idéal pour tests rapides et debugging \\
+Test depuis Dashboard & Modification temporaire du seuil Kp à 0.0 pour forcer l'envoi immédiat d'une alerte de test \\
 Test interactif Python & Console Python avec import manuel, utile pour tests unitaires de la fonction d'envoi \\
 \bottomrule
 \end{tabular}
-\caption{Methodes de test disponibles}
+\caption{Méthodes de test disponibles}
 \end{table}
 
 \subsection{Guide de Configuration Gmail}
 
-\subsubsection{Processus de Configuration Documente}
+\subsubsection{Processus de Configuration Documenté}
 
-Un guide detaille a ete cree pour configurer Gmail avec mot de passe d'application :
+Un guide détaillé a été créé pour configurer Gmail avec mot de passe d'application :
 
 \begin{enumerate}[leftmargin=*]
-    \item Acceder aux parametres de securite du compte Google
-    \item Activer l'authentification a deux facteurs (prerequis obligatoire)
-    \item Generer un mot de passe d'application specifique pour "AurorAlerte"
-    \item Copier le mot de passe genere (16 caracteres) dans le fichier de configuration
+    \item Accéder aux paramètres de sécurité du compte Google
+    \item Activer l'authentification à deux facteurs (prérequis obligatoire)
+    \item Générer un mot de passe d'application spécifique pour "AurorAlerte"
+    \item Copier le mot de passe généré (16 caractères) dans le fichier de configuration
     \item Tester la connexion avec le script de test
 \end{enumerate}
 
 \begin{warnbox}
-\textbf{Note Importante de Securite :}
+\textbf{Note Importante de Sécurité :}
 
-Il est imperatif d'utiliser un \textbf{mot de passe d'application} Gmail et non le mot de passe principal du compte. Cette pratique garantit :
+Il est impératif d'utiliser un \textbf{mot de passe d'application} Gmail et non le mot de passe principal du compte. Cette pratique garantit :
 \begin{itemize}[leftmargin=*]
-    \item Meilleure securite (le mot de passe peut etre revoque sans changer le mot de passe principal)
-    \item Tracabilite des acces
-    \item Conformite avec les recommandations de securite de Google
+    \item Meilleure sécurité (le mot de passe peut être révoqué sans changer le mot de passe principal)
+    \item Traçabilité des accès
+    \item Conformité avec les recommandations de sécurité de Google
 \end{itemize}
 \end{warnbox}
 
-\subsection{Documentation des Problemes Courants}
+\subsection{Documentation des Problèmes Courants}
 
-Creation d'un guide de resolution des erreurs frequemment rencontrees :
+Création d'un guide de résolution des erreurs fréquemment rencontrées :
 
 \begin{table}[H]
 \centering
 \small
 \begin{tabular}{lp{7cm}}
 \toprule
-\rowcolor{maingreen!80}
-\textcolor{white}{\textbf{Erreur Rencontree}} & \textcolor{white}{\textbf{Solution Documentee}} \\
+\rowcolor{mainblue!80}
+\textcolor{white}{\textbf{Erreur Rencontrée}} & \textcolor{white}{\textbf{Solution Documentée}} \\
 \midrule
-Authentification echouee & Verifier l'utilisation d'un mot de passe d'application et l'activation de l'authentification a deux facteurs \\
-Connection refused / Timeout & Desactiver temporairement l'antivirus, autoriser Python dans le pare-feu, verifier que le port 587 n'est pas bloque \\
-Invalid sender & Confirmer que l'adresse email expediteur correspond exactement au compte Gmail utilise \\
-Email non recu & Attendre 5-10 minutes, verifier minutieusement le dossier SPAM/Courrier indesirable \\
+Authentification échouée & Vérifier l'utilisation d'un mot de passe d'application et l'activation de l'authentification à deux facteurs \\
+Connection refused / Timeout & Désactiver temporairement l'antivirus, autoriser Python dans le pare-feu, vérifier que le port 587 n'est pas bloqué \\
+Invalid sender & Confirmer que l'adresse email expéditeur correspond exactement au compte Gmail utilisé \\
+Email non reçu & Attendre 5-10 minutes, vérifier minutieusement le dossier SPAM/Courrier indésirable \\
 \bottomrule
 \end{tabular}
-\caption{Guide de resolution des problemes}
+\caption{Guide de résolution des problèmes}
 \end{table}
 
 \section{Livrables de la Session}
 
-\subsection{Fichiers de Developpement Crees}
+\subsection{Fichiers de Développement Créés}
 
-Au total, 11 fichiers ont ete crees pendant cette session :
+Au total, 11 fichiers ont été créés pendant cette session :
 
 \begin{table}[H]
 \centering
 \small
 \begin{tabular}{lp{7cm}}
 \toprule
-\rowcolor{maingreen!80}
-\textcolor{white}{\textbf{Fichier}} & \textcolor{white}{\textbf{Contenu et Utilite}} \\
+\rowcolor{mainblue!80}
+\textcolor{white}{\textbf{Fichier}} & \textcolor{white}{\textbf{Contenu et Utilité}} \\
 \midrule
-carte\_mercator.py & Premiere version corrigee (900px) \\
-carte\_mercator\_1200px.py & Version experimentale extra large \\
-carte\_hemisphere\_nord.py & Version finale optimisee recommandee \\
-carte\_avec\_recherche\_villes.py & Carte complete avec systeme de recherche \\
-alertes\_avec\_validation.py & Systeme d'alertes avec validation email \\
-alertes\_automatiques.py & Version finale automatisee complete \\
+carte\_mercator.py & Première version corrigée (900px) \\
+carte\_mercator\_1200px.py & Version expérimentale extra large \\
+carte\_hemisphere\_nord.py & Version finale optimisée recommandée \\
+carte\_avec\_recherche\_villes.py & Carte complète avec système de recherche \\
+alertes\_avec\_validation.py & Système d'alertes avec validation email \\
+alertes\_automatiques.py & Version finale automatisée complète \\
 alerts\_ameliore.py & Fichier model/alerts.py enrichi \\
-kp\_zones\_definition.py & Definition globale de la table Kp-Latitude \\
-test\_email.py & Script de test du systeme d'alertes \\
+kp\_zones\_definition.py & Définition globale de la table Kp-Latitude \\
+test\_email.py & Script de test du système d'alertes \\
 \bottomrule
 \end{tabular}
-\caption{Fichiers Python crees}
+\caption{Fichiers Python créés}
 \end{table}
 
 \subsection{Documentation Technique Produite}
@@ -658,14 +659,14 @@ test\_email.py & Script de test du systeme d'alertes \\
 \small
 \begin{tabular}{lp{7cm}}
 \toprule
-\rowcolor{maingreen!80}
+\rowcolor{mainblue!80}
 \textcolor{white}{\textbf{Document}} & \textcolor{white}{\textbf{Contenu}} \\
 \midrule
-INTEGRATION\_ALERTES\_AUTO.md & Guide complet d'integration du systeme automatise (40+ pages) \\
-GUIDE\_TEST\_EMAIL.md & Documentation complete des tests et resolution de problemes (25+ pages) \\
+INTEGRATION\_ALERTES\_AUTO.md & Guide complet d'intégration du système automatisé (40+ pages) \\
+GUIDE\_TEST\_EMAIL.md & Documentation complète des tests et résolution de problèmes (25+ pages) \\
 \bottomrule
 \end{tabular}
-\caption{Documentation creee}
+\caption{Documentation créée}
 \end{table}
 
 \section{Statistiques de la Session}
@@ -674,24 +675,22 @@ GUIDE\_TEST\_EMAIL.md & Documentation complete des tests et resolution de proble
 \centering
 \begin{tabular}{lr}
 \toprule
-\rowcolor{maingreen!80}
-\textcolor{white}{\textbf{Metrique}} & \textcolor{white}{\textbf{Valeur}} \\
+\rowcolor{mainblue!80}
+\textcolor{white}{\textbf{Métrique}} & \textcolor{white}{\textbf{Valeur}} \\
 \midrule
-Duree totale de la session & environ 6 heures \\
-Problemes majeurs resolus & 4 \\
-Nouvelles fonctions creees & 3 \\
-Lignes de code ajoutees/modifiees & environ 500 \\
-Fichiers crees (code + docs) & 11 \\
-Captures d'ecran analysees & 3 \\
-Versions de carte testees & 3 \\
+Durée totale de la session & environ 6 heures \\
+Problèmes majeurs résolus & 4 \\
+Nouvelles fonctions créées & 3 \\
+Lignes de code ajoutées/modifiées & environ 500 \\
+Fichiers créés (code + docs) & 11 \\
+Captures d'écran analysées & 3 \\
+Versions de carte testées & 3 \\
 Types de messages utilisateur & 8 \\
 Pages de documentation & 65+ \\
 \bottomrule
 \end{tabular}
-\caption{Statistiques detaillees de la session}
+\caption{Statistiques détaillées de la session}
 \end{table}
-
-% (le reste du document — technologies, fonctionnalités, conclusion, annexes — est exactement le même que ton texte original, nettoyé)
 
 \chapter{Technologies et APIs}
 \section{Stack Technique}
@@ -700,41 +699,41 @@ Pages de documentation & 65+ \\
 \centering
 \begin{tabular}{lcp{7cm}}
 \toprule
-\rowcolor{maingreen!80}
+\rowcolor{mainblue!80}
 \textcolor{white}{\textbf{Technologie}} & \textcolor{white}{\textbf{Version}} & \textcolor{white}{\textbf{Utilisation}} \\
 \midrule
 Python & 3.10+ & Langage principal du backend \\
 Streamlit & 1.28+ & Framework web interactif \\
 Plotly & 5.17+ & Visualisations graphiques interactives \\
-Pandas & 2.1+ & Manipulation et analyse de donnees \\
+Pandas & 2.1+ & Manipulation et analyse de données \\
 Requests & 2.31+ & Appels APIs REST \\
 smtplib & built-in & Envoi d'emails via SMTP \\
 PIL/Pillow & 10.0+ & Traitement d'images \\
 \bottomrule
 \end{tabular}
-\caption{Technologies principales utilisees}
+\caption{Technologies principales utilisées}
 \end{table}
 
-\section{APIs Integrees}
+\section{APIs Intégrées}
 
 \begin{itemize}[leftmargin=*]
-    \item NOAA Space Weather Prediction Center (Kp, previsions, animations OVATION)
-    \item Open-Meteo (meteo, geocodage)
-    \item OpenWeatherMap (meteo actuelle, icones)
-    \item Sunrise-Sunset (obscurite)
+    \item NOAA Space Weather Prediction Center (Kp, prévisions, animations OVATION)
+    \item Open-Meteo (météo, géocodage)
+    \item OpenWeatherMap (météo actuelle, icônes)
+    \item Sunrise-Sunset (obscurité)
 \end{itemize}
 
-\chapter{Fonctionnalites Implementees}
+\chapter{Fonctionnalités Implémentées}
 
 \begin{itemize}[leftmargin=*]
-    \item 3 jauges interactives temps reel
+    \item 3 jauges interactives temps réel
     \item Historique Kp 4 heures avec export CSV
-    \item Carte mondiale Mercator focalisee hemisphere nord (40-85 degrees N)
-    \item Recherche de 5 villes personnalisees + detection automatique des doublons
+    \item Carte mondiale Mercator focalisée hémisphère nord (40-85°N)
+    \item Recherche de 5 villes personnalisées + détection automatique des doublons
     \item Calcul automatique du seuil Kp selon la localisation
-    \item Messages contextuels personnalises (4 niveaux)
-    \item Emails HTML enrichis avec 5 metriques
-    \item Documentation technique complete (65+ pages)
+    \item Messages contextuels personnalisés (4 niveaux)
+    \item Emails HTML enrichis avec 5 métriques
+    \item Documentation technique complète (65+ pages)
 \end{itemize}
 
 \chapter{Tests et Validation}
@@ -746,77 +745,77 @@ PIL/Pillow & 10.0+ & Traitement d'images \\
 \small
 \begin{tabular}{lc}
 \toprule
-\rowcolor{maingreen!80}
-\textcolor{white}{\textbf{Test Effectue}} & \textcolor{white}{\textbf{Resultat}} \\
+\rowcolor{mainblue!80}
+\textcolor{white}{\textbf{Test Effectué}} & \textcolor{white}{\textbf{Résultat}} \\
 \midrule
-Traduction complete francais & Passe \\
-4 APIs fonctionnelles & Passe \\
-Geocodage francais (Suede, Norvege) & Passe \\
-Alertes email (test force) & Passe \\
-Carte zones Kp 3, 5, 7, 9 & Passe \\
-Recherche villes + doublons & Passe \\
-Calcul Kp auto (3 villes testees) & Passe \\
-Export CSV & Passe \\
-Responsive 2 resolutions & Passe \\
-Gestion erreurs & Passe \\
+Traduction complète français & Passé \\
+4 APIs fonctionnelles & Passé \\
+Géocodage français (Suède, Norvège) & Passé \\
+Alertes email (test forcé) & Passé \\
+Carte zones Kp 3, 5, 7, 9 & Passé \\
+Recherche villes + doublons & Passé \\
+Calcul Kp auto (3 villes testées) & Passé \\
+Export CSV & Passé \\
+Responsive 2 résolutions & Passé \\
+Gestion erreurs & Passé \\
 \bottomrule
 \end{tabular}
-\caption{Resultats tests fonctionnels}
+\caption{Résultats tests fonctionnels}
 \end{table}
 
-\chapter{Ameliorations Futures}
+\chapter{Améliorations Futures}
 
 \begin{itemize}[leftmargin=*, itemsep=5pt]
     \item Historique observations utilisateur (BDD), Alertes SMS Twilio, Favoris localisations multiples
     \item Mode hors ligne (cache), Webcams additionnelles, Support multilingue (EN, SV, NO), Timeline Kp 24h
-    \item Predictions ML, Application mobile, Partage social
+    \item Prédictions ML, Application mobile, Partage social
 \end{itemize}
 
 \chapter{Conclusion}
 
 \section{Bilan des Objectifs}
 
-Le projet AurorAlerte a depasse ses objectifs initiaux en creant un dashboard professionnel combinant :
+Le projet AurorAlerte a dépassé ses objectifs initiaux en créant un dashboard professionnel combinant :
 
 \begin{itemize}[leftmargin=*, itemsep=5pt]
-    \item 4 APIs temps reel parfaitement integrees
-    \item Traduction francaise complete et localisee
-    \item 15+ emplacements pedagogiques detailles
-    \item Systeme alertes intelligent automatise
+    \item 4 APIs temps réel parfaitement intégrées
+    \item Traduction française complète et localisée
+    \item 15+ emplacements pédagogiques détaillés
+    \item Système alertes intelligent automatisé
     \item Carte mondiale avec recherche dynamique
-    \item Export donnees multiples formats
-    \item 9 problemes techniques majeurs documentes et resolus
+    \item Export données multiples formats
+    \item 9 problèmes techniques majeurs documentés et résolus
     \item Guide test complet (65+ pages documentation)
 \end{itemize}
 
-\section{Competences Acquises}
+\section{Compétences Acquises}
 
 \begin{infobox}
-\textbf{Competences Techniques :} Python/Streamlit avance, APIs REST multiples, Plotly visualisation geographique, SMTP/Gmail securise, Pandas manipulation donnees, Gestion etats Streamlit, Projections cartographiques, Geocodage multilingue
+\textbf{Compétences Techniques :} Python/Streamlit avancé, APIs REST multiples, Plotly visualisation géographique, SMTP/Gmail sécurisé, Pandas manipulation données, Gestion états Streamlit, Projections cartographiques, Géocodage multilingue
 
 \vspace{0.3cm}
-\textbf{Methodologie Professionnelle :} Debugging systematique, Documentation technique exhaustive, Gestion version Git, Architecture logicielle modulaire, Tests fonctionnels, Scripts test autonomes, Resolution problemes utilisateur
+\textbf{Méthodologie Professionnelle :} Debugging systématique, Documentation technique exhaustive, Gestion version Git, Architecture logicielle modulaire, Tests fonctionnels, Scripts test autonomes, Résolution problèmes utilisateur
 
 \vspace{0.3cm}
-\textbf{Soft Skills Developpes :} Adaptation code existant, Traduction/localisation culturelle, Pedagogie scientifique, Gestion projet academique, UX design centre utilisateur, Feedback contextuel, Communication technique
+\textbf{Soft Skills Développés :} Adaptation code existant, Traduction/localisation culturelle, Pédagogie scientifique, Gestion projet académique, UX design centré utilisateur, Feedback contextuel, Communication technique
 \end{infobox}
 
-\section{Reflexion Finale}
+\section{Réflexion Finale}
 
-Ce projet s'est etendu sur plusieurs semaines avec une session intensive finale le 29 novembre 2025. L'approche choisie d'adapter un code existant plutot que repartir de zero s'est revelee extremement formatrice, refletant fidelement les pratiques professionnelles reelles.
+Ce projet s'est étendu sur plusieurs semaines avec une session intensive finale le 29 novembre 2025. L'approche choisie d'adapter un code existant plutôt que repartir de zéro s'est révélée extrêmement formatrice, reflétant fidèlement les pratiques professionnelles réelles.
 
-La session du 29 novembre a particulierement demontre l'importance d'une methodologie rigoureuse : analyse detaillee des problemes avec documentation visuelle, exploration de solutions multiples avant decision, tests systematiques a chaque etape, et documentation exhaustive pour reproductibilite.
+La session du 29 novembre a particulièrement démontré l'importance d'une méthodologie rigoureuse : analyse détaillée des problèmes avec documentation visuelle, exploration de solutions multiples avant décision, tests systématiques à chaque étape, et documentation exhaustive pour reproductibilité.
 
-L'aspect le plus gratifiant du projet a ete sa dimension pedagogique : transformer des concepts scientifiques complexes (geomagnetisme, meteorologie, projections geographiques) en experience utilisateur accessible et engageante.
+L'aspect le plus gratifiant du projet a été sa dimension pédagogique : transformer des concepts scientifiques complexes (géomagnétisme, météorologie, projections géographiques) en expérience utilisateur accessible et engageante.
 
-La refonte du systeme d'alertes illustre parfaitement le principe central du design centre utilisateur : le systeme doit s'adapter intelligemment a l'utilisateur, jamais l'inverse.
+La refonte du système d'alertes illustre parfaitement le principe central du design centré utilisateur : le système doit s'adapter intelligemment à l'utilisateur, jamais l'inverse.
 
 \begin{infobox}
-\textbf{AurorAlerte} represente desormais un outil operationnel et pedagogique complet, pret au deploiement pour passionnes d'aurores boreales francophones.
+\textbf{AurorAlerte} représente désormais un outil opérationnel et pédagogique complet, prêt au déploiement pour passionnés d'aurores boréales francophones.
 
-Le code source documente, le README detaille et ce journal de bord exhaustif permettent a d'autres developpeurs de contribuer et d'etendre le projet.
+Le code source documenté, le README détaillé et ce journal de bord exhaustif permettent à d'autres développeurs de contribuer et d'étendre le projet.
 
-L'application demontre qu'il est possible de creer des outils scientifiques qui soient simultanement accessibles, esthetiques, rigoureux et pedagogiques en combinant APIs publiques, frameworks modernes et attention meticuleuse au design d'experience utilisateur.
+L'application démontre qu'il est possible de créer des outils scientifiques qui soient simultanément accessibles, esthétiques, rigoureux et pédagogiques en combinant APIs publiques, frameworks modernes et attention méticuleuse au design d'expérience utilisateur.
 \end{infobox}
 
 % ============================================
@@ -831,31 +830,31 @@ L'application demontre qu'il est possible de creer des outils scientifiques qui 
 \centering
 \begin{tabular}{lr}
 \toprule
-\rowcolor{maingreen!80}
-\textcolor{white}{\textbf{Metrique}} & \textcolor{white}{\textbf{Valeur}} \\
+\rowcolor{mainblue!80}
+\textcolor{white}{\textbf{Métrique}} & \textcolor{white}{\textbf{Valeur}} \\
 \midrule
 Lignes de code Python & environ 2000 \\
 Lignes de documentation & environ 2500 \\
-Fonctions developpees & 30+ \\
-APIs integrees & 4 \\
-Langues supportees & 2 (FR + EN pays) \\
+Fonctions développées & 30+ \\
+APIs intégrées & 4 \\
+Langues supportées & 2 (FR + EN pays) \\
 Onglets interface & 7 \\
 Visualisations Plotly & 20+ \\
-Temps developpement total & environ 50 heures \\
+Temps développement total & environ 50 heures \\
 Commits Git & 40+ \\
-Problemes techniques resolus & 9 \\
-Tests fonctionnels documentes & 10 \\
+Problèmes techniques résolus & 9 \\
+Tests fonctionnels documentés & 10 \\
 Pages documentation technique & 65+ \\
 \bottomrule
 \end{tabular}
-\caption{Statistiques completes (mise a jour 29/11/2025)}
+\caption{Statistiques complètes (mise à jour 29/11/2025)}
 \end{table}
 
 \chapter{Ressources et Liens}
 
 \begin{itemize}[leftmargin=*]
     \item Projet original : \url{https://github.com/sheilageorge/aurora-monitor}
-    \item Version adaptee AurorAlerte : [votre repository GitHub]
+    \item Version adaptée AurorAlerte : [votre repository GitHub]
     \item NOAA SWPC : \url{https://www.swpc.noaa.gov/}
     \item Open-Meteo : \url{https://open-meteo.com/}
     \item OpenWeatherMap : \url{https://openweathermap.org/}
@@ -866,12 +865,11 @@ Pages documentation technique & 65+ \\
 \vfill
 
 \begin{center}
-\textbf{Document realise par :}\\
+\textbf{Document réalisé par :}\\
 \vspace{0.3cm}
-Adjimon Jerome Vitoffodji et Alvin Ingabire\\
+Adjimon Jérôme Vitoffodji et Alvin Ingabire\\
 \vspace{0.8cm}
-Master 2 Open Data et Web des Donnees\\
-
+Master 2 Open Data et Web des Données\\
 \end{center}
 
 \end{document}
