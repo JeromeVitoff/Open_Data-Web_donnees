@@ -265,7 +265,7 @@ def send_aurora_alert_email(
         - Regardez vers le nord
         - Soyez patient !
         
-        Voir le dashboard : http://localhost:8501
+        Voir le dashboard : https://web-production-ff2d6.up.railway.app/
         
         ---
         AurorAlerte - {pd.Timestamp.now().strftime('%Y-%m-%d %H:%M')} UTC
