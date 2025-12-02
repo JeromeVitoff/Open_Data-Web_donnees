@@ -78,7 +78,7 @@ def translate_country_to_english(place: str) -> str:
 
 # ---- Configuration de la page ---- #
 #  CETTE LIGNE DOIT ÊTRE LA PREMIÈRE COMMANDE STREAMLIT !
-st.set_page_config(page_title="AurorAlerte", page_icon="🌌", layout="wide")
+st.set_page_config(page_title="Aura Hunter", page_icon="🌌", layout="wide")
 
 # ============================================
 # DÉFINITIONS GLOBALES
