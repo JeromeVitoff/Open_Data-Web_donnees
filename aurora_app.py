@@ -908,25 +908,25 @@ with tab2:
         ))
     
     # Votre localisation actuelle (toujours affichée)
-    fig.add_trace(go.Scattergeo(
-        lon=[lon],
-        lat=[lat],
-        mode='markers+text',
-        marker=dict(
-            size=30,
-            color='yellow',
-            symbol='star',
-            line=dict(width=4, color='black')
-        ),
-        text=[f"📍<br><b>{geo['name']}</b>"],
-        textposition='top center',
-        textfont=dict(size=14, color='black', family='Arial Black'),
-        name='Votre localisation',
-        hovertemplate=f"<b>📍 {geo['name']}</b><br>" +
-                     f"Latitude: {lat:.2f}°N<br>" +
-                     f"Longitude: {lon:.2f}°E<br>" +
-                     f"<b>{' AURORES VISIBLES' if lat >= lat_limit else ' NON VISIBLES'}</b><extra></extra>"
-    ))
+    # fig.add_trace(go.Scattergeo(
+        # lon=[lon],
+        # lat=[lat],
+        # mode='text',
+        # marker=dict(
+            #size=30,
+            #color='yellow',
+            #symbol='star',
+            #line=dict(width=4, color='black')
+        #),
+        #text=[f"📍<br><b>{geo['name']}</b>"],
+        #textposition='top center',
+        #textfont=dict(size=14, color='black', family='Arial Black'),
+        #name='Votre localisation',
+        #hovertemplate=f"<b>📍 {geo['name']}</b><br>" +
+                     #f"Latitude: {lat:.2f}°N<br>" +
+                     #f"Longitude: {lon:.2f}°E<br>" +
+                     #f"<b>{' AURORES VISIBLES' if lat >= lat_limit else ' NON VISIBLES'}</b><extra></extra>"
+    #))
     
     # Configuration
     fig.update_layout(
